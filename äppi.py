@@ -39,7 +39,7 @@ for label in px.get_xticklabels():
 plt.tight_layout()
 st.pyplot(fig);
 
-df = theseus_data()
+df = get_ta_lkm()
 toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
 labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
 values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
