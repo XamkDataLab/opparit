@@ -9,7 +9,6 @@ import re
 from datanhaku import *
 
 df = get_theseus_data()
-st.dataframe(df)
 
 df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
