@@ -1,5 +1,11 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import pyodbc
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
+import re
 from datanhaku import *
 
 st.write("Terve maailma!")
