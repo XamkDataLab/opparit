@@ -1,41 +1,54 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import pyodbc
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS
+import re
 from datanhaku import *
 
-st.write("Terve maailma!")
+df = get_ot_lkm_ol()
+df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
+st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
+opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
+opinnäytetyöt_oppilaitoksittain = opinnäytetyöt_oppilaitoksittain.sort_values(by="id", ascending=False)
+fig, px = plt.subplots(figsize=(10, 5))
+px.bar(opinnäytetyöt_oppilaitoksittain["oppilaitos"], opinnäytetyöt_oppilaitoksittain["id"], color=plt.cm.coolwarm(range(len(opinnäytetyöt_oppilaitoksittain))))
+px.set_xlabel("Oppilaitos", fontsize=15, color='white')
+px.set_ylabel("Opinnäytteiden määrä", fontsize=15, color='white')
+px.tick_params(axis='x', rotation=85, labelsize=12, color='white')
+px.tick_params(axis='y', labelsize=12, color='white')
+fig.patch.set_alpha(0)
+px.patch.set_alpha(0)
+for label in px.get_yticklabels():
+    label.set_color('white')
+for label in px.get_xticklabels():
+    label.set_color('white')
+plt.tight_layout()
+st.pyplot(fig)
 
-df = get_theseus_data()
+df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
+
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
+
+df['vuosi'] = df['julkaisupäivä'].dt.year
+df['kuukausi'] = df['julkaisupäivä'].dt.month
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
+
+st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
+df = get_ta_lkm()
 st.dataframe(df)
 
-df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
-oppilaitokset = (
-    'AMK|ammattikorkea|Centria ammattikorkeakoulu|Diakonia-ammattikorkeakoulu|'
-    'HAAGA-HELIA ammattikorkeakoulu|Humanistinen ammattikorkeakoulu|Hämeen ammattikorkeakoulu|'
-    'Jyväskylän ammattikorkeakoulu|Kaakkois-Suomen ammattikorkeakoulu|Kajaanin ammattikorkeakoulu|'
-    'Karelia-ammattikorkeakoulu|Lab-ammattikorkeakoulu|Lapin ammattikorkeakoulu|Laurea-ammattikorkeakoulu|'
-    'Metropolia Ammattikorkeakoulu|Oulun Ammattikorkeakoulu|Satakunnan ammattikorkeakoulu|'
-    'Savonia-ammattikorkeakoulu|Seinäjoen ammattikorkeakoulu|Tampereen ammattikorkeakoulu|'
-    'Turun ammattikorkeakoulu|Vaasan ammattikorkeakoulu|Yrkeshögskolan Arcada|Yrkeshögskolan Novia'
+toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
+labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
+values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
+
+fig = go.Figure(data=[go.Bar(x=labels, y=values, marker_color=['#66c2a5', '#fc8d62'])])
+fig.update_layout(
+    xaxis_title='Toimeksiantaja',
+    yaxis_title='Lukumäärä'
 )
 
-df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
-
-st.subheader('Isoimmat toimeksiantajat')
-on_amk = st.selectbox('On AMK:', options=[True, False])
-def plot_pie(on_amk):
-    filtteri = df[df["on_amk"] == on_amk]
-    Eniten_toimeksiantoja = filtteri["toimeksiantaja"].value_counts().nlargest(15)
-    data = Eniten_toimeksiantoja.values
-    keys = Eniten_toimeksiantoja.index
-
-fig = go.Figure(go.Pie(
-    labels=keys,
-    values=data,
-    hole=.3,
-    hoverinfo="label+percent+value",
-    textinfo="label+percent",
-    marker=dict(line=dict(color='white', width=2)),
-    pull=[0.08] + [0] * 14
-))
-st.plotly_chart(fig)
-plot_pie(on_amk)
+st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
+st.plotly_chart(fig);
