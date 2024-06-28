@@ -39,6 +39,7 @@ for label in px.get_xticklabels():
 plt.tight_layout()
 st.pyplot(fig);
 
+st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 df = get_ta_lkm()
 toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
 labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
@@ -49,5 +50,4 @@ fig.update_layout(
     xaxis_title='Toimeksiantaja',
     yaxis_title='Lukumäärä'
 )
-st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 st.plotly_chart(fig);
