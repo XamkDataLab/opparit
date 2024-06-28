@@ -8,14 +8,6 @@ from wordcloud import WordCloud, STOPWORDS
 import re
 from datanhaku import *
 
-df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
-
-df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
-
-df['vuosi'] = df['julkaisupäivä'].dt.year
-df['kuukausi'] = df['julkaisupäivä'].dt.month
-df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
-
 df = get_theseus_data()
 st.dataframe(df)
 
@@ -38,6 +30,14 @@ for label in px.get_xticklabels():
     label.set_color('white')
 plt.tight_layout()
 st.pyplot(fig);
+
+df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
+
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
+
+df['vuosi'] = df['julkaisupäivä'].dt.year
+df['kuukausi'] = df['julkaisupäivä'].dt.month
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
 st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 df = get_ta_lkm()
