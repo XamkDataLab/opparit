@@ -17,5 +17,5 @@ def get_theseus_data():
 def get_theseus_data_keywords():
     query = "SELECT id, julkaisupäivä, avainsanat FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
-        df2 = pd.read_sql(query, conn)
-    return df2
+        df = pd.read_sql(query, conn)
+    return df
