@@ -8,7 +8,13 @@ from wordcloud import WordCloud, STOPWORDS
 import re
 from datanhaku import *
 
-st.write("Terve maailma!")
+df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
+
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
+
+df['vuosi'] = df['julkaisupäivä'].dt.year
+df['kuukausi'] = df['julkaisupäivä'].dt.month
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
 df = get_theseus_data()
 st.dataframe(df)
@@ -32,3 +38,17 @@ for label in px.get_xticklabels():
     label.set_color('white')
 plt.tight_layout()
 st.pyplot(fig)
+
+df get_ta_lkm()
+toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
+labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
+values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
+
+fig = go.Figure(data=[go.Bar(x=labels, y=values, marker_color=['#66c2a5', '#fc8d62'])])
+fig.update_layout(
+    xaxis_title='Toimeksiantaja',
+    yaxis_title='Lukumäärä'
+)
+st.title('TheseusAMK visualisointi')
+st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
+st.plotly_chart(fig);
