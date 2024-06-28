@@ -7,7 +7,7 @@ st.write("Terve maailma!")
 df = get_theseus_data()
 st.dataframe(df)
 
-df = get_oppilaitos_data()
+df = get_ot_lkm_ol()
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
 opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
 opinnäytetyöt_oppilaitoksittain = opinnäytetyöt_oppilaitoksittain.sort_values(by="id", ascending=False)
