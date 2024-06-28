@@ -25,9 +25,3 @@ def get_ta_lkm():
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
-    
-def get_ta_lkm():
-    query = "SELECT toimeksiantaja FROM theseusAMK;"
-    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
-        df = pd.read_sql(query, conn)
-    return df
