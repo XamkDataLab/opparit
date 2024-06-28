@@ -8,7 +8,7 @@ from wordcloud import WordCloud, STOPWORDS
 import re
 from datanhaku import *
 
-
+df = get_ot_lkm_ol()
 df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
 opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
@@ -36,6 +36,7 @@ df['vuosi'] = df['julkaisupäivä'].dt.year
 df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
+df = get_get_ta_lkm()
 st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 df = get_ta_lkm()
 st.dataframe(df)
