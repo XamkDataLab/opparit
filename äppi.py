@@ -41,6 +41,7 @@ st.pyplot(fig);
 
 st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 df = get_ta_lkm()
+st.dataframe(df)
 toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
 labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
 values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
