@@ -36,10 +36,8 @@ df['vuosi'] = df['julkaisupäivä'].dt.year
 df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
-df = get_get_ta_lkm()
-st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 df = get_ta_lkm()
-st.dataframe(df)
+st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
 labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
 values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
