@@ -37,9 +37,9 @@ for label in px.get_yticklabels():
 for label in px.get_xticklabels():
     label.set_color('white')
 plt.tight_layout()
-st.pyplot(fig)
+st.pyplot(fig);
 
-df = get_ta_lkm()
+df = theseus_data()
 toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
 labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
 values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
@@ -49,6 +49,5 @@ fig.update_layout(
     xaxis_title='Toimeksiantaja',
     yaxis_title='Lukumäärä'
 )
-st.title('TheseusAMK visualisointi')
 st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
 st.plotly_chart(fig);
