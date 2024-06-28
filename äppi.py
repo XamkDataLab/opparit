@@ -11,7 +11,6 @@ from datanhaku import *
 df = get_theseus_data()
 st.dataframe(df)
 
-df = get_ot_lkm_ol()
 df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
 opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
@@ -29,7 +28,7 @@ for label in px.get_yticklabels():
 for label in px.get_xticklabels():
     label.set_color('white')
 plt.tight_layout()
-st.pyplot(fig);
+st.pyplot(fig)
 
 df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
 
