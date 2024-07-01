@@ -29,7 +29,7 @@ for label in px.get_xticklabels():
 plt.tight_layout()
 st.pyplot(fig)
 
-
+df.head()
 df = get_julkaisupäivä()
 df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
 
