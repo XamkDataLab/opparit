@@ -325,5 +325,14 @@ fig = go.Figure(go.Pie(
 st.plotly_chart(fig)
 plot_pie(on_amk);
 
-
+def clean_company_name(name):
+    stopwords = ['oy', 'ab', 'ky', 'oyj', 'gmbh', 'ltd', 'rf', 'seura', 'ry', 
+                 'r y', 'inc', 'corp', 'oy ab', 'ltd oy', 'plc',
+                'llc', 'corporation']
+    name = str(name).lower()
+    name = re.sub(r'[^a-z0-9åäöü]', ' ', name)
+    name = re.sub(r' {2,}', ' ', name)
+    name = re.sub(r'(\b' + r'\b|\b'.join(stopwords) + r'\b)$', '', name)
+    return name.strip()
+df['toimeksiantaja'] = df['toimeksiantaja'].apply(clean_company_name)
 
