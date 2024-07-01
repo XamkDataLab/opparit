@@ -8,7 +8,6 @@ from wordcloud import WordCloud, STOPWORDS
 import re
 from datanhaku import *
 
-st.subheader('hello')
 
 df = get_ot_lkm_ol()
 df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
