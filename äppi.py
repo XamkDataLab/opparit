@@ -131,6 +131,36 @@ plt.show()
 st.subheader("Avainsanojen sanapilvi")
 st.pyplot(plt);
 
+poistettavat_arvot = [
+    'Anonyymi yritys', 'Anonyymit Yritys A ja Yritys B', 'Case yritys X', 'Case-yritys', 'Case-yritys Oy',
+    'Fysioterapiayritys X', 'IT- ja taloushallinnon palveluita tarjoava yritys', 'Kiinteistönvälitysyritys X',
+    'Kohdeyritys', 'Kohdeyritys Oy', 'Kuljetusyritys', 'Kunnossapitoyritys', 'Luottamuksellinen yritys',
+    'LVI-suunnitteluyritys', 'LVIS-yritys', 'Markkinatutkimusyritys (salainen)', 'Metallialan yritys',
+    'Metalliteollisuuden yritys', 'Metalliteollisuusalan yritys', 'Nimetön, suomalainen palkanlaskentayritys',
+    'OP:n tilaajayritys X', 'Oululainen tarkkuusmekaniikkayritys', 'Suomessa toimiva finanssialan yritys',
+    'Tanssialan yritys', 'Teknologiayritys', 'Tilintarkastusyhteisö Yritys X', 'Tuntematon yritys',
+    'Työasujen jälleenmyyntiyritys (yritys x)', 'Yritys A', 'Yritys Oy', 'Yritys Oy (nimi muutettu)', 'Yritys X',
+    'Yritys X (Salattu yritys)', 'Yritys X / päivittäistavarakaupan tulosyksikkö Jyväskylässä', 'Yritys X Oy',
+    'YritysX', 'Osakeyhtiö X', 'Vakuutusyhtiö X', 'Yhdistys X', 'xxxx', 'X', 'X company', 'X Oy',
+    'Tilintarkastusyhteisö Yritys X', 'Tilitoimisto X', 'Tilitoimisto X Oy', 'Tilitoimisto X Tmi', 'Rakennusliike X',
+    'Pikaruokaravintola x', 'Perheyhteisö X', 'Parturi-kampaaja X Tmi', 'Pankki X', 'Palvelinkeskus x',
+    'Osakeyhtiö X', 'Organisaatio X', 'Organisation X', 'Organization X', 'Marjatila x', 'Kaupunki X',
+    'Insinööritoimisto X', 'Finanssialan toimija X', 'Ehdokas X', 'Company X', 'Case company X',
+    'Asiantuntijaorganisaatio X', 'Salainen', 'Urheiluseura (salainen)', 'Nimeltä mainitsematon henkilöautokorjaamo',
+    'Ei mainita', 'nimetön', 'yhteistyöpäiväkoti (salattu)', 'Tilaajan tiedot salattuja', 'Toimeksiantajan tiedot salattu',
+    'Salassa pidettävä', 'Anonym uppdragsgivare', 'Anonyymi', 'Anonyymi hankeorganisaatio', 'Anonyymi toimeksiantaja',
+    'Case Anonymous', 'Nimettömänä pysyttelevä taho', 'Toimeksiantajaa ei nimetä',
+    'yksityinen henkilö -jo toimivan yrityksen nimeen.', 'A case company', 'An engineering company',
+    'Oma aihe', 'Confidential', 'Yksityinen henkilö', 'Yksityinen metsäomistaja', 'Ei ole', 'Case company X', 'Company Y',
+    'Yksityinen', 'Yksityinen asiakas', 'Yksityinen palveluasumisen yksikkö', 'Yksityinen taho', 'Yksityinen tilaaja',
+    'Yksityinen toimeksiantaja', 'Yksityinen toimija', 'Yksityinen työterveyshuollon organisaatio',
+    'Yksityinen lääkäriasema', 'Yksityinen lastenkoti Etelä-Suomessa', 'Yksityinen lastensuojelulaitos',
+    'Yksityinen lastensuojeluyksikkö', 'Ei mainita', 'Anonym uppdragsgivare', 'Eräs Etelä-Suomessa sijaitseva päiväkoti (salassapidettävä)'
+    'Markkinatutkimusyritys (salainen)', '-', '*', 'Eräs Pirkanmaan sairaanhoitopiirin yksikkö', 'Eräs pohjoissavolainen perusterveydenhuollon päivystys'
+    'Yksityishenkilö', 'Yksityisyrittäjänä toimiva psykoterapeutti']
+
+df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)];
+
 
 
 
