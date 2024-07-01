@@ -40,7 +40,13 @@ def get_theseus_data_keywords():
     return df;
 
 def get_kielilkm():
-    query = "SELECT kieli, vuosi FROM theseusAMK;"
+    query = "SELECT kieli FROM theseusAMK;"
+    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
+        df = pd.read_sql(query, conn)
+    return df;
+
+def get_ko_top10():
+    query = "SELECT koulutusohjelma FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df;
