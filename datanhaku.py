@@ -75,6 +75,12 @@ def get_top10_tmk():
         df = pd.read_sql(query, conn)
     return df
 
+def get_opc_op():
+    query = "SELECT vuosi, oppilaitos, id FROM theseusAMK;"
+    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
+        df = pd.read_sql(query, conn)
+    return df
+
 def get_top10_tmk_1924():
     query = "SELECT vuosi, toimeksiantaja FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
