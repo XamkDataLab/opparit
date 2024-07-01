@@ -57,3 +57,29 @@ fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja",
              labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
 st.subheader("Vuosittainen toimeksiantajien määrä")
 st.plotly_chart(fig);
+
+df = get_kielilkm()
+
+kieli_muutokset = {
+    'fin': 'fi',
+    'fi': 'fi',
+    'swe': 'sv',
+    'sv': 'sv',
+    'rus': 'ru',
+    'ru': 'ru',
+    'en': 'en',
+    'eng': 'en',
+    'fr': 'fr',
+    'fre': 'fr'
+}
+df["kieli"] = df["kieli"].replace(kieli_muutokset)
+df = df[~df['kieli'].isin(["akuuttihoito", 'NULL'])]
+
+kieli_lkm = df["kieli"].value_counts()
+
+suurimmat_kielet = kieli_lkm[kieli_lkm.index.isin(['fi', 'en', 'sv'])]
+muut = kieli_lkm[~kieli_lkm.index.isin(['fi', 'en', 'sv'])].sum()
+kieli_lkm_yhdistetty = pd.concat([suurimmat_kielet, pd.Series({'muut': muut})])
+fig = px.pie(kieli_lkm_yhdistetty, values=kieli_lkm_yhdistetty.values, names=kieli_lkm_yhdistetty.index)
+st.subheader('Opinnäytetöissä käytetyt kielet')
+st.plotly_chart(fig);
