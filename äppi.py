@@ -51,7 +51,12 @@ fig.update_layout(
 )
 st.plotly_chart(fig);
 
-
+df = get_vuositm()
+vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
+fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
+             labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
+st.subheader("Vuosittainen toimeksiantajien määrä")
+st.plotly_chart(fig);
 
 df = get_kielilkm()
 kieli_muutokset = {
