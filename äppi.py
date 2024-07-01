@@ -225,3 +225,4 @@ fig.update_layout(
     template='plotly_white'
 )
 st.plotly_chart(fig);
+
