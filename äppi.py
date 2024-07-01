@@ -226,7 +226,6 @@ fig.update_layout(
 )
 st.plotly_chart(fig);
 
-
 df = get_top10_tmk_1924
 st.subheader('Eniten toimeksiantoja vuosittain')
 vuodet = [year for year in range(2019, 2024)]
