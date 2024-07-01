@@ -32,7 +32,6 @@ st.pyplot(fig)
 
 #----------------
 
-df.head(5)
 df = get_julkaisupäivä()
 df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
 
