@@ -8,6 +8,8 @@ from wordcloud import WordCloud, STOPWORDS
 import re
 from datanhaku import *
 
+#----------------
+
 df = get_ot_lkm_ol()
 df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
@@ -28,7 +30,9 @@ for label in px.get_xticklabels():
 plt.tight_layout()
 st.pyplot(fig)
 
-df.head()
+#----------------
+
+df.head(5)
 df = get_julkaisupäivä()
 df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
 
@@ -37,6 +41,8 @@ df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
 df['vuosi'] = df['julkaisupäivä'].dt.year
 df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
+
+#----------------
 
 df = get_ta_lkm()
 st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
@@ -51,12 +57,16 @@ fig.update_layout(
 )
 st.plotly_chart(fig);
 
+#----------------
+
 df = get_vuositm()
 vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
 fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
              labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
 st.subheader("Vuosittainen toimeksiantajien määrä")
 st.plotly_chart(fig);
+
+#----------------
 
 df = get_kielilkm()
 kieli_muutokset = {
@@ -74,6 +84,8 @@ kieli_muutokset = {
 df["kieli"] = df["kieli"].replace(kieli_muutokset)
 df = df[~df['kieli'].isin(["akuuttihoito", 'NULL'])]
 
+#----------------
+
 kieli_lkm = df["kieli"].value_counts()
 
 suurimmat_kielet = kieli_lkm[kieli_lkm.index.isin(['fi', 'en', 'sv'])]
@@ -82,6 +94,8 @@ kieli_lkm_yhdistetty = pd.concat([suurimmat_kielet, pd.Series({'muut': muut})])
 fig = px.pie(kieli_lkm_yhdistetty, values=kieli_lkm_yhdistetty.values, names=kieli_lkm_yhdistetty.index)
 st.subheader('Opinnäytetöissä käytetyt kielet')
 st.plotly_chart(fig);
+
+#----------------
 
 df = get_ko_top10()
 Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
@@ -96,6 +110,8 @@ px.set_facecolor('none')
 px.legend(keys, title="Koulutusohjelmat", loc="center right", bbox_to_anchor=(1.1, 0, 0.5, 1))
 st.subheader("Top 15 koulutusohjelmat")
 st.pyplot(fig);
+
+#----------------
 
 df = get_ot_lkm_ol()
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
@@ -116,6 +132,8 @@ for label in px.get_xticklabels():
 plt.tight_layout()
 st.pyplot(fig);
 
+#----------------
+
 df = get_sanapilvi()
 from wordcloud import WordCloud, STOPWORDS
 teksti = df['avainsanat'].str.cat(sep=' ').replace("'", "")
@@ -126,6 +144,8 @@ plt.axis("off")
 plt.show()
 st.subheader("Avainsanojen sanapilvi")
 st.pyplot(plt);
+
+#----------------
 
 poistettavat_arvot = [
     'Anonyymi yritys', 'Anonyymit Yritys A ja Yritys B', 'Case yritys X', 'Case-yritys', 'Case-yritys Oy',
@@ -157,6 +177,8 @@ poistettavat_arvot = [
 
 df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)];
 
+#----------------
+
 df = get_sanapilvi_ka()
 teksti = df["koulutusala_fi"].str.cat(sep=' ')
 plt.rcParams["figure.figsize"] = (10,15)
@@ -168,6 +190,8 @@ plt.axis("off")
 plt.show()
 st.subheader("Koulutusalojen sanapilvi");
 st.pyplot(plt)
+
+#----------------
 
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 
@@ -182,6 +206,8 @@ oppilaitokset = (
 )
 
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
+
+#----------------
 
 df = get_tk_tm()
 filtteri = df[(df["koulutusala_fi"] == "Tietojenkäsittely") & (df["on_amk"] == False)]
@@ -201,6 +227,8 @@ fig.update_layout(
 )
 st.subheader("Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
 st.plotly_chart(fig);
+
+#----------------
 
 df = get_top10_tmk()
 st.subheader("10 suurinta toimeksiantajaa koulutuksen mukaan")
@@ -225,6 +253,8 @@ fig.update_layout(
     template='plotly_white'
 )
 st.plotly_chart(fig);
+
+#----------------
 
 df = get_top10_tmk_1924
 st.subheader('Eniten toimeksiantoja vuosittain')
@@ -251,6 +281,8 @@ def plot_top_10_toimeksiantajat(year):
 st.plotly_chart(fig)
 plot_top_10_toimeksiantajat(year);
 
+#----------------
+
 df = get_opc_op()
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
 vuodet = [year for year in range(2008, 2024)]
@@ -276,6 +308,7 @@ fig.update_layout(
 st.plotly_chart(fig)
 plot_opinnäytetyöt_oppilaitoksittain(year);
 
+#----------------
 
 df = get_ka_kieli()
 st.subheader('Suosituimmat koulutusalat kielen mukaan')
@@ -304,6 +337,8 @@ fig.update_layout(
 st.plotly_chart(fig)
 plot_top_10_koulutusalat(kieli);
 
+#----------------
+
 df = get_ism_ta()
 st.subheader('Isoimmat toimeksiantajat')
 on_amk = st.selectbox('On AMK:', options=[True, False])
@@ -324,6 +359,8 @@ fig = go.Figure(go.Pie(
 ))
 st.plotly_chart(fig)
 plot_pie(on_amk);
+
+#----------------
 
 def clean_company_name(name):
     stopwords = ['oy', 'ab', 'ky', 'oyj', 'gmbh', 'ltd', 'rf', 'seura', 'ry', 
