@@ -16,13 +16,6 @@ df['vuosi'] = df['julkaisupäivä'].dt.year
 df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
-def get_theseus_data():
-    query = "SELECT toimeksiantaja FROM theseusAMK;"
-    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
-        df = pd.read_sql(query, conn)
-    return df;
-
-
 def get_ta_lkm():
     query = "SELECT toimeksiantaja FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
@@ -31,12 +24,6 @@ def get_ta_lkm():
 
 def get_julkaisupäivä():
     query = "SELECT julkaisupäivä FROM theseusAMK;"
-    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
-        df = pd.read_sql(query, conn)
-    return df;
-
-def get_theseus_data_keywords():
-    query = "SELECT id, julkaisupäivä, avainsanat FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df;
