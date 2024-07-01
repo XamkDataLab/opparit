@@ -276,3 +276,33 @@ fig.update_layout(
 )
 st.plotly_chart(fig)
 plot_opinnäytetyöt_oppilaitoksittain(year);
+
+
+df = get_ka_kieli()
+st.subheader('Suosituimmat koulutusalat kielen mukaan')
+kielet = df["kieli"].unique()
+kieli = st.selectbox('Valitse kieli', options=kielet)
+
+def plot_top_10_koulutusalat(kieli):
+    filtteri = df[df["kieli"] == kieli]
+    top_10_koulutusalat = filtteri["koulutusala_fi"].value_counts().head(10).reset_index()
+    top_10_koulutusalat.columns = ["koulutusala_fi", "count"]
+    fig = go.Figure(go.Bar(
+    x=top_10_koulutusalat["count"],
+    y=top_10_koulutusalat["koulutusala_fi"],
+    orientation='h',
+    marker=dict(color=top_10_koulutusalat["count"], colorscale='Bluered')
+))
+
+fig.update_layout(
+    title=f'Suosituimmat koulutusalat kielellä {kieli}',
+    xaxis_title="Suoritetuttujen opinnäytetöiden määrä",
+    yaxis_title="Koulutusala",
+    yaxis=dict(autorange='reversed'),
+    template='plotly_white'
+)
+
+st.plotly_chart(fig)
+plot_top_10_koulutusalat(kieli);
+
+
