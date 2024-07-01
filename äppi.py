@@ -202,6 +202,31 @@ fig.update_layout(
 st.subheader("Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
 st.plotly_chart(fig);
 
+df = get_top10_tmk()
+st.subheader("10 suurinta toimeksiantajaa koulutuksen mukaan")
+koulutusala = st.selectbox("Valitse koulutusala", df["koulutusala_fi"].unique())
+def int_kokeilu(koulutusala):
+    filtteri = df[(df["koulutusala_fi"] == koulutusala) & (df["on_amk"] == False)]
+    ala10_toimeksiantajat = filtteri["toimeksiantaja"].value_counts().head(10).reset_index()
+    ala10_toimeksiantajat.columns = ["toimeksiantaja", "count"]
+    
+fig = go.Figure(go.Bar(
+    x=ala10_toimeksiantajat["count"],
+    y=ala10_toimeksiantajat["toimeksiantaja"],
+    orientation='h',
+    marker=dict(color=ala10_toimeksiantajat["count"], colorscale='inferno')
+))
+
+fig.update_layout(
+    xaxis_title="Toimeksiantojen määrä",
+    yaxis_title="Toimeksiantaja",
+    yaxis=dict(autorange='reversed'),
+    xaxis=dict(type='linear'),
+    template='plotly_white'
+)
+st.plotly_chart(fig);
+
+
 
 
 
