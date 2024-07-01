@@ -305,4 +305,26 @@ fig.update_layout(
 st.plotly_chart(fig)
 plot_top_10_koulutusalat(kieli);
 
+df = get_ism_ta()
+st.subheader('Isoimmat toimeksiantajat')
+on_amk = st.selectbox('On AMK:', options=[True, False])
+def plot_pie(on_amk):
+    filtteri = df[df["on_amk"] == on_amk]
+    Eniten_toimeksiantoja = filtteri["toimeksiantaja"].value_counts().nlargest(15)
+    data = Eniten_toimeksiantoja.values
+    keys = Eniten_toimeksiantoja.index
+
+fig = go.Figure(go.Pie(
+    labels=keys,
+    values=data,
+    hole=.3,
+    hoverinfo="label+percent+value",
+    textinfo="label+percent",
+    marker=dict(line=dict(color='white', width=2)),
+    pull=[0.08] + [0] * 14
+))
+st.plotly_chart(fig)
+plot_pie(on_amk);
+
+
 
