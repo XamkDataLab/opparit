@@ -34,9 +34,7 @@ st.pyplot(fig)
 
 df = get_julkaisupäivä()
 df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
-
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
-
 df['vuosi'] = df['julkaisupäivä'].dt.year
 df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
