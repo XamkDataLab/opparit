@@ -55,4 +55,4 @@ vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().r
 fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
              labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
 st.subheader("Vuosittainen toimeksiantajien määrä")
-st.plotly_chart(fig)
+st.plotly_chart(fig);
