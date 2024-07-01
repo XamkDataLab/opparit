@@ -119,4 +119,18 @@ for label in px.get_xticklabels():
 plt.tight_layout()
 st.pyplot(fig);
 
+df = get_sanapilvi()
+
+from wordcloud import WordCloud, STOPWORDS
+teksti = df['avainsanat'].str.cat(sep=' ').replace("'", "")
+wordcloud = WordCloud(max_font_size=50, max_words=75, background_color="white", colormap="CMRmap", stopwords=STOPWORDS).generate(teksti)
+plt.figure(figsize=(10, 15))
+plt.imshow(wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
+st.subheader("Avainsanojen sanapilvi")
+st.pyplot(plt);
+
+
+
 
