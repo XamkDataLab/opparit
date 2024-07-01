@@ -226,3 +226,28 @@ fig.update_layout(
 )
 st.plotly_chart(fig);
 
+
+df = get_top10_tmk_1924
+st.subheader('Eniten toimeksiantoja vuosittain')
+vuodet = [year for year in range(2019, 2024)]
+year = st.slider('Valitse vuosi', min_value=min(vuodet), max_value=max(vuodet), step=1, value=min(vuodet))
+def plot_top_10_toimeksiantajat(year):
+    filtteri = df[(df["vuosi"] == year) & (df["on_amk"] == False)]
+    toimeksiantajat19_24 = filtteri["toimeksiantaja"].value_counts().head(10).reset_index()
+    toimeksiantajat19_24.columns = ["toimeksiantaja", "count"]
+    fig = go.Figure(go.Bar(
+        x=toimeksiantajat19_24["count"],
+        y=toimeksiantajat19_24["toimeksiantaja"],
+        orientation='h',
+        marker=dict(color=toimeksiantajat19_24["count"], colorscale='inferno')
+    ))
+
+    fig.update_layout(
+        title=f'Eniten toimeksiantoja vuonna {year}',
+        xaxis_title="Toimeksiantojen määrä",
+        yaxis_title="Toimeksiantaja",
+        template='plotly_white'
+    )
+
+st.plotly_chart(fig)
+plot_top_10_toimeksiantajat(year);
