@@ -161,6 +161,17 @@ poistettavat_arvot = [
 
 df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)];
 
+df = get_sanapilvi_ka()
 
+teksti = df["koulutusala_fi"].str.cat(sep=' ')
+plt.rcParams["figure.figsize"] = (10,15)
+stopwords = ["ja"]
+wordcloud = WordCloud(max_font_size = 50, max_words = 75, background_color = "white", colormap = "Blues", stopwords=stopwords).generate(teksti)
+plt.plot()
+plt.imshow(wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
+st.subheader("Koulutusalojen sanapilvi");
+st.pyplot(plt)
 
 
