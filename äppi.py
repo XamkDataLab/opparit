@@ -17,7 +17,7 @@ opinnäytetyöt_oppilaitoksittain = opinnäytetyöt_oppilaitoksittain.sort_value
 fig, px = plt.subplots(figsize=(10, 5))
 px.bar(opinnäytetyöt_oppilaitoksittain["oppilaitos"], opinnäytetyöt_oppilaitoksittain["id"], color=plt.cm.coolwarm(range(len(opinnäytetyöt_oppilaitoksittain))))
 px.set_xlabel("Oppilaitos", fontsize=15, color='white')
-px.set_ylabel("Opinnäytteiden määrä", fontsize=15, color='white')
+px.set_ylabel("Määrä", fontsize=15, color='white')
 px.tick_params(axis='x', rotation=85, labelsize=12, color='white')
 px.tick_params(axis='y', labelsize=12, color='white')
 fig.patch.set_alpha(0)
