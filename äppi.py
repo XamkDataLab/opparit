@@ -59,7 +59,6 @@ st.subheader("Vuosittainen toimeksiantajien määrä")
 st.plotly_chart(fig);
 
 df = get_kielilkm()
-
 kieli_muutokset = {
     'fin': 'fi',
     'fi': 'fi',
@@ -85,7 +84,6 @@ st.subheader('Opinnäytetöissä käytetyt kielet')
 st.plotly_chart(fig);
 
 df = get_ko_top10()
-
 Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
 data = Koulutusohjelmat_top15.values
 keys = Koulutusohjelmat_top15.index
@@ -100,7 +98,6 @@ st.subheader("Top 15 koulutusohjelmat")
 st.pyplot(fig);
 
 df = get_ot_lkm_ol()
-
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
 opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
 opinnäytetyöt_oppilaitoksittain = opinnäytetyöt_oppilaitoksittain.sort_values(by="id", ascending=False)
@@ -120,7 +117,6 @@ plt.tight_layout()
 st.pyplot(fig);
 
 df = get_sanapilvi()
-
 from wordcloud import WordCloud, STOPWORDS
 teksti = df['avainsanat'].str.cat(sep=' ').replace("'", "")
 wordcloud = WordCloud(max_font_size=50, max_words=75, background_color="white", colormap="CMRmap", stopwords=STOPWORDS).generate(teksti)
@@ -162,7 +158,6 @@ poistettavat_arvot = [
 df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)];
 
 df = get_sanapilvi_ka()
-
 teksti = df["koulutusala_fi"].str.cat(sep=' ')
 plt.rcParams["figure.figsize"] = (10,15)
 stopwords = ["ja"]
@@ -173,5 +168,40 @@ plt.axis("off")
 plt.show()
 st.subheader("Koulutusalojen sanapilvi");
 st.pyplot(plt)
+
+df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
+
+oppilaitokset = (
+    'AMK|ammattikorkea|Centria ammattikorkeakoulu|Diakonia-ammattikorkeakoulu|'
+    'HAAGA-HELIA ammattikorkeakoulu|Humanistinen ammattikorkeakoulu|Hämeen ammattikorkeakoulu|'
+    'Jyväskylän ammattikorkeakoulu|Kaakkois-Suomen ammattikorkeakoulu|Kajaanin ammattikorkeakoulu|'
+    'Karelia-ammattikorkeakoulu|Lab-ammattikorkeakoulu|Lapin ammattikorkeakoulu|Laurea-ammattikorkeakoulu|'
+    'Metropolia Ammattikorkeakoulu|Oulun Ammattikorkeakoulu|Satakunnan ammattikorkeakoulu|'
+    'Savonia-ammattikorkeakoulu|Seinäjoen ammattikorkeakoulu|Tampereen ammattikorkeakoulu|'
+    'Turun ammattikorkeakoulu|Vaasan ammattikorkeakoulu|Yrkeshögskolan Arcada|Yrkeshögskolan Novia'
+)
+
+df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
+
+df = get_tk_tm()
+filtteri = df[(df["koulutusala_fi"] == "Tietojenkäsittely") & (df["on_amk"] == False)]
+ala10_toimeksiantajat = filtteri["toimeksiantaja"].value_counts().head(10).reset_index()
+ala10_toimeksiantajat.columns = ["toimeksiantaja", "count"]
+fig = go.Figure(go.Bar(
+    x=ala10_toimeksiantajat["count"],
+    y=ala10_toimeksiantajat["toimeksiantaja"],
+    orientation='h',
+    marker=dict(color=ala10_toimeksiantajat["count"], colorscale='dense')
+))
+fig.update_layout(
+    xaxis_title="Toimeksiantojen määrä",
+    yaxis_title="Toimeksiantaja",
+    yaxis=dict(autorange='reversed'),
+    template='plotly_dark'
+)
+st.subheader("Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
+st.plotly_chart(fig);
+
+
 
 
