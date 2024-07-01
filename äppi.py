@@ -251,3 +251,28 @@ def plot_top_10_toimeksiantajat(year):
 
 st.plotly_chart(fig)
 plot_top_10_toimeksiantajat(year);
+
+df = get_opc_op()
+st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
+vuodet = [year for year in range(2008, 2024)]
+year = st.slider('Valitse vuosi', min_value=min(vuodet), max_value=max(vuodet), step=1, value=min(vuodet))
+def plot_opinnäytetyöt_oppilaitoksittain(year):
+    filtteri = df[df["vuosi"] == year]
+    opinnäytetyöt_oppilaitoksittain = filtteri.groupby("oppilaitos")["id"].nunique().reset_index()
+    opinnäytetyöt_oppilaitoksittain = opinnäytetyöt_oppilaitoksittain.sort_values(by="id", ascending=False).head(10)
+
+fig = go.Figure(go.Bar(
+    x=opinnäytetyöt_oppilaitoksittain["id"],
+    y=opinnäytetyöt_oppilaitoksittain["oppilaitos"],
+    orientation='h',
+    marker=dict(color=opinnäytetyöt_oppilaitoksittain["id"], colorscale='Viridis')
+))
+fig.update_layout(
+    title=f'Opinnäytetöiden määrä oppilaitoksittain vuonna {year}',
+    xaxis_title="Opinnäytteiden määrä",
+    yaxis_title="Oppilaitos",
+    yaxis=dict(autorange='reversed'),
+    template='plotly_white'
+)
+st.plotly_chart(fig)
+plot_opinnäytetyöt_oppilaitoksittain(year);
