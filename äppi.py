@@ -83,3 +83,7 @@ kieli_lkm_yhdistetty = pd.concat([suurimmat_kielet, pd.Series({'muut': muut})])
 fig = px.pie(kieli_lkm_yhdistetty, values=kieli_lkm_yhdistetty.values, names=kieli_lkm_yhdistetty.index)
 st.subheader('Opinnäytetöissä käytetyt kielet')
 st.plotly_chart(fig);
+
+
+
+
