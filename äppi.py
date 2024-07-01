@@ -84,6 +84,21 @@ fig = px.pie(kieli_lkm_yhdistetty, values=kieli_lkm_yhdistetty.values, names=kie
 st.subheader('Opinnäytetöissä käytetyt kielet')
 st.plotly_chart(fig);
 
+df = get_ko_top10()
+
+Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
+data = Koulutusohjelmat_top15.values
+keys = Koulutusohjelmat_top15.index
+explode = [0.05] + [0] * (len(keys) - 1)
+
+fig, px = plt.subplots(figsize=(8, 8), facecolor='none')
+px.pie(data, autopct='%.1f%%', pctdistance=0.9, explode=explode, shadow=True,
+       wedgeprops={'edgecolor': "none"})
+px.set_facecolor('none')
+px.legend(keys, title="Koulutusohjelmat", loc="center right", bbox_to_anchor=(1.1, 0, 0.5, 1))
+st.subheader("Top 15 koulutusohjelmat")
+st.pyplot(fig);
+
 
 
 
