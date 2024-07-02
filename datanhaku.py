@@ -8,6 +8,11 @@ database = st.secrets["database"]
 username = st.secrets["username"]
 password = st.secrets["password"]
 
+        df2 = pd.read_sql(query, conn)
+    return df2
+        df = pd.read_sql(query, conn)
+    return df
+
 def get_ta_lkm():
     query = "SELECT toimeksiantaja FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
