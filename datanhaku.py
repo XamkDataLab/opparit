@@ -8,10 +8,6 @@ database = st.secrets["database"]
 username = st.secrets["username"]
 password = st.secrets["password"]
 
-        df2 = pd.read_sql(query, conn)
-    return df2
-        df = pd.read_sql(query, conn)
-    return df
 
 def get_ta_lkm():
     query = "SELECT toimeksiantaja FROM theseusAMK;"
