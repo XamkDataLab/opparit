@@ -9,17 +9,17 @@ import re
 from streamlit_option_menu import option_menu
 from datanhaku import *
 #----------------
-valinnat = option_menu(None, ["perinteiset visualisoinnit", 'interaktiiviset visualisoinnit'], 
+valinnat = option_menu(None, ["perinteiset-visualisoinnit", 'interaktiiviset-visualisoinnit'], 
     menu_icon="cast", default_index=0, orientation="horizontal",
     styles={
         "container": {"padding": "0!important", "background-color": "#13a872"},
-        "icon": {"color": "orange", "font-size": "25px"}, 
+        "icon": {"color": "orange", "font-size": "30px"}, 
         "nav-link": {"font-size": "25px", "text-align": "left", "margin":"0px", "--hover-color": "#45a240"},
         "nav-link-selected": {"background-color": "#5ed9ac"},
     }
 )
 
-if valinnat == "visualisoinnit":
+if valinnat == "perinteiset visualisoinnit":
     df = get_ot_lkm_ol()
     df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
     st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
