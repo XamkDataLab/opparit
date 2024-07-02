@@ -9,7 +9,6 @@ import re
 from datanhaku import *
 
 #----------------
-df.head(5)
 df = get_ot_lkm_ol()
 df["oppilaitos"] = df["oppilaitos"].replace("Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", "Karelia-ammattikorkeakoulu")
 st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
