@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS
 import re
 from datanhaku import *
-
 #----------------
 
 df = get_ot_lkm_ol()
