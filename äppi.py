@@ -20,8 +20,9 @@ valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat & oppilaitokset
     }
 )
 
-df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
+df = get_toimeksiantaja_oppilaitos()
 
+df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 oppilaitokset = (
         'AMK|ammattikorkea|Centria ammattikorkeakoulu|Diakonia-ammattikorkeakoulu|'
         'HAAGA-HELIA ammattikorkeakoulu|Humanistinen ammattikorkeakoulu|Hämeen ammattikorkeakoulu|'
@@ -32,6 +33,8 @@ oppilaitokset = (
         'Turun ammattikorkeakoulu|Vaasan ammattikorkeakoulu|Yrkeshögskolan Arcada|Yrkeshögskolan Novia'
         )
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
+
+df = get_poistettavatyritykset()
 
 poistettavat_arvot = [
         'Anonyymi yritys', 'Anonyymit Yritys A ja Yritys B', 'Case yritys X', 'Case-yritys', 'Case-yritys Oy',
@@ -63,6 +66,8 @@ poistettavat_arvot = [
 
 df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)]
 
+df = get_oppilaitos_ta()
+
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 
 oppilaitokset = (
@@ -76,6 +81,8 @@ oppilaitokset = (
     )
 
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
+
+df = get_kielet()
 
 kieli_muutokset = {
     'fin': 'fi',
@@ -93,8 +100,8 @@ df["kieli"] = df["kieli"].replace(kieli_muutokset)
 df = df[~df['kieli'].isin(["akuuttihoito", 'NULL'])]
 
 #-----------------------
-
 if valinnat == "Toimeksiannot":
+    df = get_vis1()
     toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
     labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
     values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
@@ -108,6 +115,7 @@ if valinnat == "Toimeksiannot":
     st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
     st.plotly_chart(fig)
 
+    df = get_vis2()
     df["oppilaitos"] = df["oppilaitos"].replace(
         "Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", 
         "Karelia-ammattikorkeakoulu"
@@ -127,13 +135,14 @@ if valinnat == "Toimeksiannot":
     st.subheader('Toimeksiantajien määrä oppilaitoksittain')
     st.plotly_chart(fig2)
 
-
+    df = get_vis3()
     vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
     fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
               labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
     st.subheader("Vuosittainen toimeksiantajien määrä")
     st.plotly_chart(fig)
 
+    df = get_vis4()
     st.subheader('Isoimmat toimeksiantajat')
     on_amk = st.selectbox('On AMK:', options=[True, False], key='on_amk_selectboxi')
     def plot_pie(on_amk):
@@ -155,6 +164,7 @@ if valinnat == "Toimeksiannot":
     plot_pie(on_amk)
 
 
+    df = get_vis5()
     filtteri = df[(df["koulutusala_fi"] == "Tietojenkäsittely") & (df["on_amk"] == False)]
     ala10_toimeksiantajat = filtteri["toimeksiantaja"].value_counts().head(10).reset_index()
     ala10_toimeksiantajat.columns = ["toimeksiantaja", "count"]
@@ -173,6 +183,7 @@ if valinnat == "Toimeksiannot":
     st.subheader("Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
     st.plotly_chart(fig)
 
+    df = get_vis6()
     st.subheader("10 suurinta toimeksiantajaa koulutuksen mukaan")
     koulutusala = st.selectbox("Valitse koulutusala", df["koulutusala_fi"].unique())
     def int_kokeilu(koulutusala):
@@ -198,6 +209,7 @@ if valinnat == "Toimeksiannot":
 
 
 
+    df = get_vis7()
     st.subheader('Eniten toimeksiantoja vuosittain')
     vuodet = [year for year in range(2019, 2024)]
     year = st.slider('Valitse vuosi', min_value=min(vuodet), max_value=max(vuodet), step=1, value=min(vuodet))
@@ -225,6 +237,7 @@ if valinnat == "Toimeksiannot":
 #-----------------------
 
 elif valinnat == "Koulutusohjelmat & oppilaitokset":
+    df = get_vis8()
     Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
     data = Koulutusohjelmat_top15.values
     keys = Koulutusohjelmat_top15.index
@@ -238,6 +251,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     st.subheader("15 suosituinta koulutusohjelmaa")
     st.pyplot(fig)
 
+    df = get_vis9()
     st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
     opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
     opinnäytetyöt_oppilaitoksittain = opinnäytetyöt_oppilaitoksittain.sort_values(by="id", ascending=False)
@@ -257,6 +271,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     st.pyplot(fig3)
 
 
+    df = get_vis10()
     teksti = df["koulutusala_fi"].str.cat(sep=' ')
     plt.rcParams["figure.figsize"] = (10,15)
     stopwords = ["ja"]
@@ -268,6 +283,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     st.subheader("Koulutusalojen sanapilvi")
     st.pyplot(plt)
 
+    df = get_vis11()
     st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
     vuodet = [year for year in range(2008, 2024)]
     year = st.slider('Valitse vuosi', min_value=min(vuodet), max_value=max(vuodet), step=1, value=min(vuodet))
@@ -294,6 +310,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
 
 
 
+    df = get_vis12()
     st.subheader('Suosituimmat koulutusalat kielen mukaan')
     kielet = df["kieli"].unique()
     kieli = st.selectbox('Valitse kieli', options=kielet)
@@ -323,6 +340,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
 #-----------------------
 
 elif valinnat == "Muut":
+    df = get_vis13()
     kieli_lkm = df["kieli"].value_counts()
     suurimmat_kielet = kieli_lkm[kieli_lkm.index.isin(['fi', 'en', 'sv'])]
     muut = kieli_lkm[~kieli_lkm.index.isin(['fi', 'en', 'sv'])].sum()
@@ -331,6 +349,7 @@ elif valinnat == "Muut":
     st.subheader('Opinnäytetöissä käytetyt kielet')
     st.plotly_chart(fig)
 
+    df = get_vis14()
     from wordcloud import WordCloud, STOPWORDS
     teksti = df['avainsanat'].str.cat(sep=' ').replace("'", "")
     wordcloud = WordCloud(max_font_size=50, max_words=75, background_color="white", colormap="CMRmap", stopwords=STOPWORDS).generate(teksti)
