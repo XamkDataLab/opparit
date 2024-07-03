@@ -9,6 +9,7 @@ import re
 from streamlit_option_menu import option_menu
 from datanhaku import *
 #----------------
+
 valinnat = option_menu(None, ["perinteiset-visualisoinnit", 'interaktiiviset-visualisoinnit'], 
     menu_icon="cast", default_index=0, orientation="horizontal",
     styles={
