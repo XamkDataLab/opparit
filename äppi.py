@@ -112,7 +112,7 @@ if valinnat == "Toimeksiannot":
         yaxis_title='Lukumäärä'
     )
     st.title('TheseusAMK visualisointi')
-    st.subheader('Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
+    st.subheader('🔸Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
     st.plotly_chart(fig)
 
     df = get_vis2()
@@ -132,18 +132,18 @@ if valinnat == "Toimeksiannot":
     fig2.update_layout(
         xaxis={'tickangle': -90}
     )
-    st.subheader('Toimeksiantajien määrä oppilaitoksittain')
+    st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
     st.plotly_chart(fig2)
 
     df = get_vis3()
     vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
     fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
               labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
-    st.subheader("Vuosittainen toimeksiantajien määrä")
+    st.subheader("🔸Vuosittainen toimeksiantajien määrä")
     st.plotly_chart(fig)
 
     df = get_vis4()
-    st.subheader('Isoimmat toimeksiantajat')
+    st.subheader('🔸Isoimmat toimeksiantajat')
     on_amk = st.selectbox('On AMK:', options=[True, False], key='on_amk_selectboxi')
     def plot_pie(on_amk):
             filtteri = df[df["on_amk"] == on_amk]
@@ -180,11 +180,11 @@ if valinnat == "Toimeksiannot":
         yaxis=dict(autorange='reversed'),
         template='plotly_dark'
     )
-    st.subheader("Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
+    st.subheader("🔸Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
     st.plotly_chart(fig)
 
     df = get_vis6()
-    st.subheader("10 suurinta toimeksiantajaa koulutuksen mukaan")
+    st.subheader("🔸10 suurinta toimeksiantajaa koulutuksen mukaan")
     koulutusala = st.selectbox("Valitse koulutusala", df["koulutusala_fi"].unique())
     def int_kokeilu(koulutusala):
             filtteri = df[(df["koulutusala_fi"] == koulutusala) & (df['on_amk'] == False)]
@@ -210,7 +210,7 @@ if valinnat == "Toimeksiannot":
 
 
     df = get_vis7()
-    st.subheader('Eniten toimeksiantoja vuosittain')
+    st.subheader('🔸Eniten toimeksiantoja vuosittain')
     vuodet = [year for year in range(2019, 2024)]
     year = st.slider('Valitse vuosi', min_value=min(vuodet), max_value=max(vuodet), step=1, value=min(vuodet))
     def plot_top_10_toimeksiantajat(year):
@@ -248,11 +248,11 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
        wedgeprops={'edgecolor': "none"})
     px.set_facecolor('none')
     px.legend(keys, title="Koulutusohjelmat", loc="center right", bbox_to_anchor=(1.1, 0, 0.5, 1))
-    st.subheader("15 suosituinta koulutusohjelmaa")
+    st.subheader("🔸15 suosituinta koulutusohjelmaa")
     st.pyplot(fig)
 
     df = get_vis9()
-    st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
+    st.subheader('🔸Opinnäytetöiden määrä oppilaitoksittain')
     opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
     opinnäytetyöt_oppilaitoksittain = opinnäytetyöt_oppilaitoksittain.sort_values(by="id", ascending=False)
     fig3, px = plt.subplots(figsize=(12, 7))
@@ -280,11 +280,11 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.show()
-    st.subheader("Koulutusalojen sanapilvi")
+    st.subheader("🔸Koulutusalojen sanapilvi")
     st.pyplot(plt)
 
     df = get_vis11()
-    st.subheader('Opinnäytetöiden määrä oppilaitoksittain')
+    st.subheader('🔸Opinnäytetöiden määrä oppilaitoksittain')
     vuodet = [year for year in range(2008, 2024)]
     year = st.slider('Valitse vuosi', min_value=min(vuodet), max_value=max(vuodet), step=1, value=min(vuodet))
     def plot_opinnäytetyöt_oppilaitoksittain(year):
@@ -311,7 +311,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
 
 
     df = get_vis12()
-    st.subheader('Suosituimmat koulutusalat kielen mukaan')
+    st.subheader('🔸Suosituimmat koulutusalat kielen mukaan')
     kielet = df["kieli"].unique()
     kieli = st.selectbox('Valitse kieli', options=kielet)
 
@@ -346,7 +346,7 @@ elif valinnat == "Muut":
     muut = kieli_lkm[~kieli_lkm.index.isin(['fi', 'en', 'sv'])].sum()
     kieli_lkm_yhdistetty = pd.concat([suurimmat_kielet, pd.Series({'muut': muut})])
     fig = px.pie(kieli_lkm_yhdistetty, values=kieli_lkm_yhdistetty.values, names=kieli_lkm_yhdistetty.index)
-    st.subheader('Opinnäytetöissä käytetyt kielet')
+    st.subheader('🔸Opinnäytetöissä käytetyt kielet')
     st.plotly_chart(fig)
 
     df = get_vis14()
@@ -357,7 +357,7 @@ elif valinnat == "Muut":
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.show()
-    st.subheader("Avainsanojen sanapilvi")
+    st.subheader("🔸Avainsanojen sanapilvi")
     st.pyplot(plt)
     
 #----------------
