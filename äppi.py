@@ -118,7 +118,8 @@ if valinnat == "Toimeksiannot":
     st.title('TheseusAMK visualisointi')
     st.subheader('🔸Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
     st.plotly_chart(fig)
-st.markdown("""---""")
+    
+    st.markdown("""---""")
     df = get_vis2()
     df["oppilaitos"] = df["oppilaitos"].replace(
         "Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", 
@@ -139,7 +140,8 @@ st.markdown("""---""")
     )
     st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
     st.plotly_chart(fig2)
-st.markdown("""---""")
+    
+    st.markdown("""---""")
     df = get_vis3()
     vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
     fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
@@ -149,7 +151,7 @@ st.markdown("""---""")
             )
     st.subheader("🔸Vuosittainen toimeksiantajien määrä")
     st.plotly_chart(fig)
-st.markdown("""---""")
+    st.markdown("""---""")
     df = get_vis4()
     st.subheader('🔸Isoimmat toimeksiantajat')
     on_amk = st.selectbox('On AMK:', options=[True, False], key='on_amk_selectboxi')
@@ -171,7 +173,7 @@ st.markdown("""---""")
             st.plotly_chart(fig)
     plot_pie(on_amk)
 
-st.markdown("""---""")
+    st.markdown("""---""")
     df = get_vis5()
     filtteri = df[(df["koulutusala_fi"] == "Tietojenkäsittely") & (df["on_amk"] == False)]
     ala10_toimeksiantajat = filtteri["toimeksiantaja"].value_counts().head(10).reset_index()
@@ -189,7 +191,8 @@ st.markdown("""---""")
     )
     st.subheader("🔸Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
     st.plotly_chart(fig)
-st.markdown("""---""")
+
+    st.markdown("""---""")
     df = get_vis6()
     st.subheader("🔸10 suurinta toimeksiantajaa koulutuksen mukaan")
     koulutusala = st.selectbox("Valitse koulutusala", df["koulutusala_fi"].unique())
@@ -213,7 +216,7 @@ st.markdown("""---""")
             st.plotly_chart(fig)
     int_kokeilu(koulutusala)
     
-st.markdown("""---""")
+    st.markdown("""---""")
     df = get_vis7()
     st.subheader('🔸Eniten toimeksiantoja vuosittain')
     vuodet = [year for year in range(2019, 2024)]
@@ -240,7 +243,7 @@ st.markdown("""---""")
     plot_top_10_toimeksiantajat(year)
 
 #-----------------------
-st.markdown("""---""")
+    st.markdown("""---""")
 elif valinnat == "Koulutusohjelmat & oppilaitokset":
     df = get_vis8()
     Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
@@ -279,7 +282,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     plt.tight_layout()
     st.pyplot(fig3)
 
-st.markdown("""---""")
+    st.markdown("""---""")
     df = get_vis10()
     teksti = df["koulutusala_fi"].str.cat(sep=' ')
     plt.rcParams["figure.figsize"] = (10,15)
@@ -291,7 +294,8 @@ st.markdown("""---""")
     plt.show()
     st.subheader("🔸Koulutusalojen sanapilvi")
     st.pyplot(plt)
-st.markdown("""---""")
+
+    st.markdown("""---""")
     df = get_vis11()
     st.subheader('🔸Opinnäytetöiden määrä oppilaitoksittain')
     vuodet = [year for year in range(2008, 2024)]
@@ -318,7 +322,7 @@ st.markdown("""---""")
     st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
 
-st.markdown("""---""")
+    st.markdown("""---""")
     df = get_vis12()
     st.subheader('🔸Suosituimmat koulutusalat kielen mukaan')
     kielet = df["kieli"].unique()
@@ -358,7 +362,8 @@ elif valinnat == "Muut":
     fig = px.pie(kieli_lkm_yhdistetty, values=kieli_lkm_yhdistetty.values, names=kieli_lkm_yhdistetty.index)
     st.subheader('🔸Opinnäytetöissä käytetyt kielet')
     st.plotly_chart(fig)
-st.markdown("""---""")
+
+    st.markdown("""---""")
     df = get_vis14()
     from wordcloud import WordCloud, STOPWORDS
     teksti = df['avainsanat'].str.cat(sep=' ').replace("'", "")
