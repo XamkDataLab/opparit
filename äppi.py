@@ -112,6 +112,7 @@ if valinnat == "Toimeksiannot":
     fig.update_layout(
         xaxis_title='Toimeksiantaja',
         yaxis_title='Lukumäärä'
+        yaxis=dict(range=[0, 225000])
     )
     st.title('TheseusAMK visualisointi')
     st.subheader('🔸Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
@@ -200,7 +201,6 @@ if valinnat == "Toimeksiannot":
 
             fig.update_layout(
             xaxis_title="Toimeksiantojen määrä",
-            yaxis_title="Toimeksiantaja",
             yaxis=dict(autorange='reversed'),
             xaxis=dict(type='linear'),
             template='plotly_white'
@@ -227,7 +227,6 @@ if valinnat == "Toimeksiannot":
             fig.update_layout(
             title=f'Eniten toimeksiantoja vuonna {year}',
             xaxis_title="Toimeksiantojen määrä",
-            yaxis_title="Toimeksiantaja",
             template='plotly_white'
         )
 
