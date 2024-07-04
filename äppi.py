@@ -312,7 +312,8 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
         xaxis_title="Opinnäytteiden määrä",
         yaxis_title="Oppilaitos",
         yaxis=dict(autorange='reversed'),
-        template='plotly_white'
+        template='plotly_white',
+        xaxis=dict(range=[0, 600]),
         )
     st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
