@@ -340,6 +340,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
         yaxis_title="Koulutusala",
         yaxis=dict(autorange='reversed'),
         template='plotly_white'
+        xaxis=dict(range=[0, 40000]),
     )
 
     st.plotly_chart(fig)
