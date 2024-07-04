@@ -285,7 +285,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     plt.rcParams["figure.figsize"] = (10,15)
     stopwords = ["ja"]
     wordcloud = WordCloud(max_font_size = 50, max_words = 75, background_color = "white", colormap = "Blues", stopwords=stopwords).generate(teksti)
-    plt.plot()
+    plt.figure()
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.show()
