@@ -221,6 +221,7 @@ if valinnat == "Toimeksiannot":
             filtteri = df[(df["vuosi"] == year) & (df["on_amk"] == False)]
             toimeksiantajat19_23 = filtteri["toimeksiantaja"].value_counts().head(10).reset_index()
             toimeksiantajat19_23.columns = ["toimeksiantaja", "count"]
+            toimeksiantajat19_23 = toimeksiantajat19_23.iloc[::-1]
             fig = go.Figure(go.Bar(
                 x=toimeksiantajat19_23["count"],
                 y=toimeksiantajat19_23["toimeksiantaja"],
