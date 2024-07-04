@@ -134,6 +134,7 @@ if valinnat == "Toimeksiannot":
 
     fig2.update_layout(
         xaxis={'tickangle': -90}
+        yaxis=dict(range=[0, 4200])
     )
     st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
     st.plotly_chart(fig2)
