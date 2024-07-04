@@ -207,8 +207,7 @@ if valinnat == "Toimeksiannot":
         )
             st.plotly_chart(fig)
     int_kokeilu(koulutusala)
-
-
+    
 
     df = get_vis7()
     st.subheader('🔸Eniten toimeksiantoja vuosittain')
@@ -252,6 +251,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     st.subheader("🔸15 suosituinta koulutusohjelmaa")
     st.pyplot(fig)
 
+    
     df = get_vis9()
     st.subheader('🔸Opinnäytetöiden määrä oppilaitoksittain')
     opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
@@ -308,7 +308,6 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
         )
             st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
-
 
 
     df = get_vis12()
