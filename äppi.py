@@ -306,7 +306,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
         yaxis=dict(autorange='reversed'),
         template='plotly_white'
         )
-            st.plotly_chart(fig)
+    st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
 
 
@@ -334,7 +334,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
         template='plotly_white'
     )
 
-            st.plotly_chart(fig)
+    st.plotly_chart(fig)
     plot_top_10_koulutusalat(kieli)
 
 #-----------------------
