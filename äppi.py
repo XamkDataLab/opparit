@@ -143,6 +143,9 @@ if valinnat == "Toimeksiannot":
     vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
     fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
               labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
+            fig.update_layout(
+            yaxis=dict(range=[0, 7200])
+            )
     st.subheader("🔸Vuosittainen toimeksiantajien määrä")
     st.plotly_chart(fig)
 
