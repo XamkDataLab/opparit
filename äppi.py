@@ -108,7 +108,7 @@ if valinnat == "Toimeksiannot":
     labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
     values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
 
-    fig = go.Figure(data=[go.Bar(x=labels, y=values, marker_color=['#66c2a5', '#fc8d62'])])
+    fig = go.Figure(data=[go.Bar(x=labels, y=values, width=0.45, marker_color=['#66c2a5', '#fc8d62'])])
     fig.update_layout(
         xaxis_title='Toimeksiantaja',
         yaxis_title='Lukumäärä'
