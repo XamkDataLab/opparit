@@ -479,7 +479,7 @@ elif valinnat == "Muut":
     plt.plot(vuosittaiset_opinnaytetyot["vuosi"], vuosittaiset_opinnaytetyot["id"], marker='o', linestyle='-', color='tab:blue')
     plt.xlabel("Vuosi", fontsize=14)
     plt.ylabel("Opinnäytetöiden määrä", fontsize=14)
-    plt.title("Vuosittaiset opinnäytetyöt", fontsize=18)
+    plt.subheader("🔸Vuosittaiset opinnäytetyöt", fontsize=18)
     plt.xticks(rotation=0)
     plt.grid(True)
     plt.tight_layout()
