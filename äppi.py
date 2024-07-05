@@ -437,6 +437,21 @@ elif valinnat == "Muut":
     
     st.subheader("Opinnäytetöiden määrä oppilaitoksittain kartalla")
     folium_static(m)
+
+    data = pd.merge(koulujen_df, suosituimmat_koulutusalat, on="oppilaitos")
+    m = folium.Map(location=[64.0, 26.0], zoom_start=6)
+    marker_cluster = MarkerCluster().add_to(m)
+    
+    
+    for idx, row in data.iterrows():
+        folium.Marker(
+            location=[row["lat"], row["lon"]],
+            popup=f"{row['oppilaitos']}<br>{row['koulutusala_fi']}: {row['count']} suoritettua opinnäytetyötä",
+            tooltip=row["oppilaitos"]
+        ).add_to(marker_cluster)
+    
+    st.title("Suosituimmat koulutusalat oppilaitoksittain")
+    folium_static(m)
 #----------------
 
 def clean_company_name(name):
