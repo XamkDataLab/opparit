@@ -9,7 +9,6 @@ import re
 from streamlit_option_menu import option_menu
 from datanhaku import *
 #----------------
-st.set_page_config(layout="wide")
 
 st.title('💻 TheseusAMK visualisointi')
 valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'], 
