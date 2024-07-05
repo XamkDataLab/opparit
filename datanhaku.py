@@ -122,3 +122,27 @@ def get_julkaisupaiva():
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
+
+def get_vis15():
+    query = "SELECT oppilaitos FROM theseusAMK;"
+    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
+        df = pd.read_sql(query, conn)
+    return df
+
+def get_vis16():
+    query = "SELECT oppilaitos, koulutusala_fi FROM theseusAMK;"
+    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
+        df = pd.read_sql(query, conn)
+    return df
+
+def get_vis17():
+    query = "SELECT vuosi, id, kieli FROM theseusAMK;"
+    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
+        df = pd.read_sql(query, conn)
+    return df
+
+def get_vis18():
+    query = "SELECT vuosi, id FROM theseusAMK;"
+    with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
+        df = pd.read_sql(query, conn)
+    return df
