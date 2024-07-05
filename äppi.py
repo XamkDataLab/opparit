@@ -435,7 +435,7 @@ elif valinnat == "Muut":
             tooltip=row["oppilaitos"]
         ).add_to(marker_cluster)
     
-    st.subheader("Opinnäytetöiden määrä oppilaitoksittain kartalla")
+    st.subheader("🔸Opinnäytetöiden määrä oppilaitoksittain kartalla")
     folium_static(m)
 
     st.markdown("""---""")
@@ -451,7 +451,7 @@ elif valinnat == "Muut":
             tooltip=row["oppilaitos"]
         ).add_to(marker_cluster)
     
-    st.subheader("Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
+    st.subheader("🔸Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
     folium_static(m)
 #----------------
 
