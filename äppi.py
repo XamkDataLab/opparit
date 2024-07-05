@@ -21,6 +21,14 @@ valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'],
     }
 )
 
+df = get_julkaisupaiva()
+
+df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
+df['vuosi'] = df['julkaisupäivä'].dt.year
+df['kuukausi'] = df['julkaisupäivä'].dt.month
+df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
+
 df = get_toimeksiantaja_oppilaitos()
 
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
