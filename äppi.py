@@ -453,6 +453,25 @@ elif valinnat == "Muut":
     
     st.subheader("🔸Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
     folium_static(m)
+
+    filtteri = df[df["kieli"].isin(["fi", "en"])]
+    opinnaytetyot_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
+    plt.figure(figsize=(12, 7))
+    kielet = opinnaytetyot_vuosittain["kieli"].unique()
+    colors = ['tab:red', 'tab:blue']
+    
+    for kieli, color in zip(kielet, colors):
+        data = opinnaytetyot_vuosittain[opinnaytetyot_vuosittain["kieli"] == kieli]
+        plt.plot(data["vuosi"], data["id"], marker='o', label=kieli, color=color)
+    
+    plt.xlabel("Vuosi", fontsize=15)
+    plt.ylabel("Opinnäytetöiden määrä", fontsize=15)
+    plt.title("Opinnäytetöiden määrä Suomeksi ja Englanniksi", fontsize=18)
+    plt.legend(title='Kieli')
+    plt.grid(True)
+    plt.tight_layout()
+    st.subheader("Opinnäytetöiden määrä Suomeksi ja Englanniksi")
+    st.pyplot(plt)
 #----------------
 
 def clean_company_name(name):
