@@ -386,6 +386,7 @@ elif valinnat == "Muut":
     st.pyplot(plt)
 
     st.markdown("""---""")
+    df = get_vis15()
     oppilaitostentiedot = {
         "Metropolia Ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
         "Tampereen ammattikorkeakoulu": ("Tampere", 61.4981, 23.7608),
@@ -439,11 +440,12 @@ elif valinnat == "Muut":
     folium_static(m)
 
     st.markdown("""---""")
+    df = get_vis16()
     data = pd.merge(koulujen_df, suosituimmat_koulutusalat, on="oppilaitos")
     m = folium.Map(location=[64.0, 26.0], zoom_start=6)
     marker_cluster = MarkerCluster().add_to(m)
     
-    
+  
     for idx, row in data.iterrows():
         folium.Marker(
             location=[row["lat"], row["lon"]],
@@ -454,6 +456,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
     folium_static(m)
 
+    df = get_vis17()
     filtteri = df[df["kieli"].isin(["fi", "en"])]
     opinnaytetyot_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
     plt.figure(figsize=(12, 7))
@@ -473,6 +476,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
     st.pyplot(plt)
 
+    df = get_vis18()
     vuosittaiset_opinnaytetyot = df.groupby("vuosi")["id"].nunique().reset_index()
     st.title("Vuosittaiset opinnäytetyöt")
     plt.figure(figsize=(9, 5))
