@@ -438,6 +438,7 @@ elif valinnat == "Muut":
     st.subheader("Opinnäytetöiden määrä oppilaitoksittain kartalla")
     folium_static(m)
 
+    st.markdown("""---""")
     data = pd.merge(koulujen_df, suosituimmat_koulutusalat, on="oppilaitos")
     m = folium.Map(location=[64.0, 26.0], zoom_start=6)
     marker_cluster = MarkerCluster().add_to(m)
@@ -450,7 +451,7 @@ elif valinnat == "Muut":
             tooltip=row["oppilaitos"]
         ).add_to(marker_cluster)
     
-    st.title("Suosituimmat koulutusalat oppilaitoksittain")
+    st.subheader("Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
     folium_static(m)
 #----------------
 
