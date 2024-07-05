@@ -472,6 +472,18 @@ elif valinnat == "Muut":
     plt.tight_layout()
     st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
     st.pyplot(plt)
+
+    vuosittaiset_opinnaytetyot = df.groupby("vuosi")["id"].nunique().reset_index()
+    st.title("Vuosittaiset opinnäytetyöt")
+    plt.figure(figsize=(9, 5))
+    plt.plot(vuosittaiset_opinnaytetyot["vuosi"], vuosittaiset_opinnaytetyot["id"], marker='o', linestyle='-', color='tab:blue')
+    plt.xlabel("Vuosi", fontsize=14)
+    plt.ylabel("Opinnäytetöiden määrä", fontsize=14)
+    plt.title("Vuosittaiset opinnäytetyöt", fontsize=18)
+    plt.xticks(rotation=0)
+    plt.grid(True)
+    plt.tight_layout()
+    st.pyplot(plt)
 #----------------
 
 def clean_company_name(name):
