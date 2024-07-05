@@ -385,6 +385,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Avainsanojen sanapilvi")
     st.pyplot(plt)
 
+    st.markdown("""---""")
     oppilaitostentiedot = {
         "Metropolia Ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
         "Tampereen ammattikorkeakoulu": ("Tampere", 61.4981, 23.7608),
