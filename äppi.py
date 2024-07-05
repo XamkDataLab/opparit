@@ -470,7 +470,7 @@ elif valinnat == "Muut":
     plt.legend(title='Kieli')
     plt.grid(True)
     plt.tight_layout()
-    st.subheader("Opinnäytetöiden määrä Suomeksi ja Englanniksi")
+    st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
     st.pyplot(plt)
 #----------------
 
