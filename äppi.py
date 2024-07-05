@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud, STOPWORDS
 import re
 from streamlit_option_menu import option_menu
+import folium
+from folium.plugins import MarkerCluster
+from streamlit_folium import folium_static
 from datanhaku import *
 #----------------
 
@@ -381,7 +384,58 @@ elif valinnat == "Muut":
     plt.show()
     st.subheader("🔸Avainsanojen sanapilvi")
     st.pyplot(plt)
+
+    oppilaitostentiedot = {
+        "Metropolia Ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
+        "Tampereen ammattikorkeakoulu": ("Tampere", 61.4981, 23.7608),
+        "Laurea-ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
+        "Turun ammattikorkeakoulu": ("Turku", 60.4518, 22.2666),
+        "Haaga-Helia ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
+        "Jyväskylän ammattikorkeakoulu": ("Jyväskylä", 62.2426, 25.7473),
+        "Oulun ammattikorkeakoulu": ("Oulu", 65.0121, 25.4651),
+        "Satakunnan ammattikorkeakoulu": ("Pori", 61.4850, 21.7970),
+        "Savonia-ammattikorkeakoulu": ("Kuopio", 62.8924, 27.6770),
+        "Hämeen ammattikorkeakoulu": ("Hämeenlinna", 60.9950, 24.4648),
+        "Lahden ammattikorkeakoulu": ("Lahti", 60.9827, 25.6615),
+        "Seinäjoen ammattikorkeakoulu": ("Seinäjoki", 62.7903, 22.8403),
+        "Lapin ammattikorkeakoulu": ("Rovaniemi", 66.5039, 25.7294),
+        "Karelia-ammattikorkeakoulu": ("Joensuu", 62.6000, 29.7632),
+        "Diakonia-ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
+        "Vaasan ammattikorkeakoulu": ("Vaasa", 63.0951, 21.6165),
+        "Yrkeshögskolan Novia": ("Vaasa", 63.0951, 21.6165),
+        "Centria-ammattikorkeakoulu": ("Kokkola", 63.8385, 23.1307),
+        "Yrkeshögskolan Arcada": ("Helsinki", 60.1695, 24.9354),
+        "Kaakkois-Suomen ammattikorkeakoulu": ("Kouvola", 60.8697, 26.7042),
+        "LAB-ammattikorkeakoulu": ("Lappeenranta", 61.0587, 28.1887),
+        "Kajaanin ammattikorkeakoulu": ("Kajaani", 64.2273, 27.7266),
+        "Kymenlaakson ammattikorkeakoulu": ("Kotka", 60.4664, 26.9455),
+        "Saimaan ammattikorkeakoulu": ("Saimaa", 61.0612, 28.1906),
+        "Humanistinen ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
+        "Mikkelin ammattikorkeakoulu": ("Mikkeli", 61.6870, 27.2736),
+        "Poliisiammattikorkeakoulu": ("Tampere", 61.4981, 23.7608),
+        "Högskolan på Åland": ("Marienhamn", 60.0973, 19.9348)
+    }
     
+    koulujen_df = pd.DataFrame.from_dict(oppilaitostentiedot, orient='index', columns=["kaupunki", "lat", "lon"]).reset_index()
+    koulujen_df.columns = ["oppilaitos", "kaupunki", "lat", "lon"]
+    
+    opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
+    opinnäytetyöt_oppilaitoksittain.columns = ["oppilaitos", "opinnäytetöiden_määrä"]
+    
+    data = pd.merge(koulujen_df, opinnäytetyöt_oppilaitoksittain, on="oppilaitos")
+    
+    m = folium.Map(location=[64.0, 26.0], zoom_start=6)
+    marker_cluster = MarkerCluster().add_to(m)
+    
+    for idx, row in data.iterrows():
+        folium.Marker(
+            location=[row["lat"], row["lon"]],
+            popup=f"{row['oppilaitos']}: {row['opinnäytetöiden_määrä']} opinnäytetyötä",
+            tooltip=row["oppilaitos"]
+        ).add_to(marker_cluster)
+    
+    st.title("Opinnäytetöiden määrä oppilaitoksittain")
+    folium_static(m)
 #----------------
 
 def clean_company_name(name):
