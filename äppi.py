@@ -434,7 +434,7 @@ elif valinnat == "Muut":
             tooltip=row["oppilaitos"]
         ).add_to(marker_cluster)
     
-    st.title("Opinnäytetöiden määrä oppilaitoksittain")
+    st.subheader("Opinnäytetöiden määrä oppilaitoksittain kartalla")
     folium_static(m)
 #----------------
 
