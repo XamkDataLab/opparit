@@ -525,6 +525,25 @@ elif valinnat == "Muut":
     st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
     st.pyplot(fig)
 
+    st.markdown("""---""")
+    df['vuosi'] = pd.to_numeric(df['vuosi'], errors='coerce')
+    df['oppilaitos'] = df["oppilaitos"].astype(str)
+    grouped_df = df.groupby(['vuosi', 'oppilaitos']).size().reset_index(name="Opinnäytetöiden_määrä")
+    
+    top_oppilaitos = grouped_df.groupby('oppilaitos')['Opinnäytetöiden_määrä'].sum().nlargest(5).index
+    top_grouped_df = grouped_df[grouped_df['oppilaitos'].isin(top_oppilaitos)]
+    plt.figure(figsize=(15, 9))
+    
+    for oppilaitos in top_oppilaitos:
+        oppilaitos_data = top_grouped_df[top_grouped_df['oppilaitos'] == oppilaitos]
+        plt.plot(oppilaitos_data['vuosi'], oppilaitos_data['Opinnäytetöiden_määrä'], marker="o", label=oppilaitos)
+    plt.xlabel("Vuosi")
+    plt.legend(title="Oppilaitos", bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.grid(True)
+    plt.tight_layout()
+    st.subheader("🔸Oppilaitosten aktiivisuus eri vuosina(5 aktiivisinta)")
+    st.pyplot(plt)
+
 #----------------
 
 def clean_company_name(name):
