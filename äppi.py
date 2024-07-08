@@ -11,6 +11,7 @@ import folium
 from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
 from datanhaku import *
+
 #----------------
 
 st.title('💻 TheseusAMK visualisointi')
@@ -485,10 +486,23 @@ elif valinnat == "Muut":
     plt.plot(vuosittaiset_opinnaytetyot["vuosi"], vuosittaiset_opinnaytetyot["id"], marker='o', linestyle='-', color='tab:blue')
     plt.xlabel("Vuosi", fontsize=14)
     plt.ylabel("Opinnäytetöiden määrä", fontsize=14)
-    plt.subheader("🔸Vuosittaiset opinnäytetyöt", fontsize=18)
+    plt.title("Vuosittaiset opinnäytetyöt", fontsize=18)
     plt.xticks(rotation=0)
     plt.grid(True)
     plt.tight_layout()
+    st.subheader("🔸Vuosittaiset opinnäytetyöt")
+    st.pyplot(plt)
+
+    st.markdown("""---""")
+    df = get_vis19()
+    df["tiivistelmien_sanat"] = df["tiivistelmä1"].apply(lambda x: len(str(x).split()) if pd.notna(x) else 0)
+    kskm_sanamäärä = df.groupby("vuosi")["tiivistelmien_sanat"].mean().reset_index()
+    plt.figure(figsize=(9, 5))
+    plt.plot(kskm_sanamäärä["vuosi"], kskm_sanamäärä["tiivistelmien_sanat"], marker="o")
+    plt.xlabel("Vuosi")
+    plt.ylabel("Sanamäärä")
+    plt.xticks(rotation=45)
+    st.subheader("🔸Tiivistelmien keskimääräinen sanamäärä vuosittain")
     st.pyplot(plt)
 #----------------
 
