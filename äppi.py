@@ -458,7 +458,7 @@ elif valinnat == "Muut":
 
     st.markdown("""---""")
     df = get_vis17()
-    filtteri = df[df["kieli"].isin(["fi", "en"])]
+    filtteri = df[df["kieli"].isin(["en", "fi"])]
     opinnaytetyot_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
     plt.figure(figsize=(12, 7))
     kielet = opinnaytetyot_vuosittain["kieli"].unique()
@@ -472,6 +472,9 @@ elif valinnat == "Muut":
     plt.ylabel("Opinnäytetöiden määrä", fontsize=15)
     plt.title("Opinnäytetöiden määrä Suomeksi ja Englanniksi", fontsize=18)
     plt.legend(title='Kieli')
+    handles, labels = plt.gca().get_legend_handles_labels()
+    order = [labels.index('fi'), labels.index('en')]
+    plt.legend([handles[idx] for idx in order], [labels[idx] for idx in order], title='Kieli')
     plt.grid(True)
     plt.tight_layout()
     st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
