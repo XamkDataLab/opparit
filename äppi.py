@@ -517,6 +517,8 @@ elif valinnat == "Muut":
     px.set_yticks(np.arange(len(pivot_table.index)))
     px.set_xticklabels(pivot_table.columns)
     px.set_yticklabels(pivot_table.index)
+    plt.xlabel("Kuukaudet")
+    plt.ylabel("Vuodet")
     px.xaxis.set_ticks_position('bottom')
     px.xaxis.set_label_position('bottom')
     for (i, j), val in np.ndenumerate(pivot_table.values):
