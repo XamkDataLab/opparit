@@ -512,7 +512,6 @@ elif valinnat == "Muut":
     pivot_table = pivot_table.fillna(0)
     fig, px = plt.subplots(figsize=(14, 9))
     cax = px.matshow(pivot_table, cmap="Spectral_r")
-    fig.colorbar(cax)
     px.set_xticks(np.arange(len(pivot_table.columns)))
     px.set_yticks(np.arange(len(pivot_table.index)))
     px.set_xticklabels(pivot_table.columns)
