@@ -531,7 +531,7 @@ elif valinnat == "Muut":
     df['vuosi'] = pd.to_numeric(df['vuosi'], errors='coerce')
     df['oppilaitos'] = df["oppilaitos"].astype(str)
     grouped_df = df.groupby(['vuosi', 'oppilaitos']).size().reset_index(name="Opinnäytetöiden_määrä")
-    
+    plt.style.use('dark_background')
     top_oppilaitos = grouped_df.groupby('oppilaitos')['Opinnäytetöiden_määrä'].sum().nlargest(5).index
     top_grouped_df = grouped_df[grouped_df['oppilaitos'].isin(top_oppilaitos)]
     plt.figure(figsize=(15, 9))
