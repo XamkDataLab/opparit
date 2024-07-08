@@ -507,6 +507,7 @@ elif valinnat == "Muut":
     st.pyplot(plt)
 
     st.markdown("""---""")
+    df = get_vis20()
     opinnaytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
     pivot_table = opinnaytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
     pivot_table = pivot_table.fillna(0)
@@ -526,6 +527,7 @@ elif valinnat == "Muut":
     st.pyplot(fig)
 
     st.markdown("""---""")
+        df = get_vis21()
     df['vuosi'] = pd.to_numeric(df['vuosi'], errors='coerce')
     df['oppilaitos'] = df["oppilaitos"].astype(str)
     grouped_df = df.groupby(['vuosi', 'oppilaitos']).size().reset_index(name="Opinnäytetöiden_määrä")
@@ -541,7 +543,7 @@ elif valinnat == "Muut":
     plt.legend(title="Oppilaitos", bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.grid(True)
     plt.tight_layout()
-    st.subheader("🔸Oppilaitosten aktiivisuus eri vuosina(5 aktiivisinta)")
+    st.subheader("🔸Oppilaitosten aktiivisuus eri vuosina (5 aktiivisinta)")
     st.pyplot(plt)
 
 #----------------
