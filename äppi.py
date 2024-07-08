@@ -456,6 +456,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
     folium_static(m)
 
+    st.markdown("""---""")
     df = get_vis17()
     filtteri = df[df["kieli"].isin(["fi", "en"])]
     opinnaytetyot_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
@@ -476,6 +477,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
     st.pyplot(plt)
 
+    st.markdown("""---""")
     df = get_vis18()
     vuosittaiset_opinnaytetyot = df.groupby("vuosi")["id"].nunique().reset_index()
     st.title("Vuosittaiset opinnäytetyöt")
