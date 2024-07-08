@@ -506,6 +506,8 @@ elif valinnat == "Muut":
     st.subheader("🔸Tiivistelmien keskimääräinen sanamäärä vuosittain")
     st.pyplot(plt)
 
+    st.markdown("""---""")
+    df = get_vis20()
     opinnaytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
     pivot_table = opinnaytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
     pivot_table = pivot_table.fillna(0)
