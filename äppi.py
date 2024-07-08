@@ -505,6 +505,22 @@ elif valinnat == "Muut":
     plt.xticks(rotation=45)
     st.subheader("🔸Tiivistelmien keskimääräinen sanamäärä vuosittain")
     st.pyplot(plt)
+
+    opinnaytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
+    pivot_table = opinnaytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
+    pivot_table = pivot_table.fillna(0)
+    fig, px = plt.subplots(figsize=(14, 9))
+    cax = px.matshow(pivot_table, cmap="Spectral")
+    fig.colorbar(cax)
+    px.set_xticks(np.arange(len(pivot_table.columns)))
+    px.set_yticks(np.arange(len(pivot_table.index)))
+    px.set_xticklabels(pivot_table.columns)
+    px.set_yticklabels(pivot_table.index)
+    for (i, j), val in np.ndenumerate(pivot_table.values):
+        px.text(j, i, int(val), ha='center', va='center', color='black')
+    st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
+    st.pyplot(fig)
+
 #----------------
 
 def clean_company_name(name):
