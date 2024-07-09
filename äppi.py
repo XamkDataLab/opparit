@@ -568,7 +568,9 @@ elif valinnat == "Muut":
     st.markdown("""---""")
     df = get_vis23()
     st.subheader('🔸Opinnäytetöiden määrä vuosittain kielen mukaan')
-    kielen_valinta = st.selectbox('Valitse kieli', df['kieli'].unique())
+    kielisuodatin = df['kieli'].unique()
+    kielisuodatin = [lang for lang in kielisuodatin if lang not in ['other']]
+    kielen_valinta = st.selectbox('Valitse kieli', kielisuodatin)
     df_kieli = df[df['kieli'] == kielen_valinta]
     vuosittaiset_opinnäytetyöt = df_kieli.groupby('vuosi')['id'].nunique().reset_index()
     fig, ax = plt.subplots(figsize=(9, 5))
