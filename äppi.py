@@ -458,11 +458,12 @@ elif valinnat == "Muut":
 
     st.markdown("""---""")
     df = get_vis17()
+    filtteri = df[df["kieli"].isin(["en", "fi"])]
     opinnäytetyöt_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
     fig, ax = plt.subplots(figsize=(12, 7))
     kielet = opinnäytetyöt_vuosittain["kieli"].unique()
     colors = ['tab:red', 'tab:blue']
-    
+
     for kieli, color in zip(kielet, colors):
         data = opinnäytetyöt_vuosittain[opinnäytetyöt_vuosittain["kieli"] == kieli]
         ax.plot(data["vuosi"], data["id"], marker='o', label=kieli, color=color)
@@ -554,7 +555,7 @@ elif valinnat == "Muut":
     def jitter(arr, jitter_amount=1):
         return arr + np.random.uniform(-jitter_amount, jitter_amount, arr.shape)
     fig, ax = plt.subplots(figsize=(10, 10))
-    ax.scatter(df['vuosi'], add_jitter(df['tiivistelmä1_pituus']), alpha=0.5, label='Tiivistelmä 1')
+    ax.scatter(df['vuosi'], add_jitter(df['tiivistelmä1_pituus']), alpha=0.5)
     ax.set_xlabel('Vuosi')
     ax.set_ylabel('Kirjainten määrä')
     ax.grid(True)
