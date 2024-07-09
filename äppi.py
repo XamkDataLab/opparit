@@ -546,6 +546,7 @@ elif valinnat == "Muut":
     st.pyplot(plt)
 
     st.markdown("""---""")
+    df = get_vis22()
     df['tiivistelmä1_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
     def jitter(arr, jitter_amount=1):
         return arr + np.random.uniform(-jitter_amount, jitter_amount, arr.shape)
