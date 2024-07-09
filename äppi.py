@@ -560,26 +560,26 @@ elif valinnat == "Muut":
     st.pyplot(fig)
 
     st.markdown("""---""")
-    df = get_Vis23()
+    df = get_vis23()
     vuosittaiset_opinnäytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o')
     ax.set_ylabel('Opinnäytetöiden määrä', fontsize=14)
     ax.grid(True)
-    st.subheader("Opinnäytetöiden määrä vuosittain")
+    st.subheader("🔸Opinnäytetöiden määrä vuosittain")
     st.pyplot(fig)
 
     st.markdown("""---""")
+    df = get_vis24()
+    st.subheader('🔸Opinnäytetöiden määrä vuosittain kielen mukaan')
     kielen_valinta = st.selectbox('Valitse kieli', df['kieli'].unique())
     df_kieli = df[df['kieli'] == kielen_valinta]
     vuosittaiset_opinnäytetyöt = df_kieli.groupby('vuosi')['id'].nunique().reset_index()
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o')
     ax.set_ylabel('Opinnäytetöiden määrä', fontsize=14)
-    ax.set_title(f'Vuosittaiset opinnäytetyöt - {kielen_valinta}', fontsize=16)
     ax.grid(True)
     ax.set_xticks(vuosittaiset_opinnäytetyöt['vuosi'])
-    st.subheader('Opinnäytetöiden määrä vuosittain kielen mukaan')
     st.pyplot(fig)
 #----------------
 
