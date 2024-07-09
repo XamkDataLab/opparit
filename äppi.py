@@ -559,6 +559,8 @@ elif valinnat == "Muut":
     st.subheader('🔸Tiivistelmien pituudet eri vuosina')
     st.pyplot(fig)
 
+    st.markdown("""---""")
+    df = get_Vis23()
     vuosittaiset_opinnäytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o')
