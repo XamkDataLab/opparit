@@ -526,24 +526,27 @@ elif valinnat == "Muut":
     st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
     st.pyplot(fig)
 
+
     st.markdown("""---""")
-        df = get_vis21()
+    df = get_vis21()
     df['vuosi'] = pd.to_numeric(df['vuosi'], errors='coerce')
-    df['oppilaitos'] = df["oppilaitos"].astype(str)
-    grouped_df = df.groupby(['vuosi', 'oppilaitos']).size().reset_index(name="Opinnäytetöiden_määrä")
-    top_oppilaitos = grouped_df.groupby('oppilaitos')['Opinnäytetöiden_määrä'].sum().nlargest(5).index
+    df['oppilaitos'] = df['oppilaitos'].astype(str)
+    grouped_df = df.groupby(['vuosi', 'oppilaitos']).size().reset_index(name='Opt_määrä')
+    top_oppilaitos = grouped_df.groupby('oppilaitos')['Opt_määrä'].sum().nlargest(5).index
     top_grouped_df = grouped_df[grouped_df['oppilaitos'].isin(top_oppilaitos)]
-    plt.figure(figsize=(15, 9))
     
+    fig, ax = plt.subplots(figsize=(15, 9))
     for oppilaitos in top_oppilaitos:
         oppilaitos_data = top_grouped_df[top_grouped_df['oppilaitos'] == oppilaitos]
-        plt.plot(oppilaitos_data['vuosi'], oppilaitos_data['Opinnäytetöiden_määrä'], marker="o", label=oppilaitos)
-    plt.xlabel("Vuosi")
-    plt.legend(title="Oppilaitos", bbox_to_anchor=(1.05, 1), loc='upper left')
-    plt.grid(True)
-    plt.tight_layout()
-    st.subheader("🔸Oppilaitosten aktiivisuus eri vuosina (5 aktiivisinta)")
-    st.pyplot(plt)
+        ax.plot(oppilaitos_data['vuosi'], oppilaitos_data['Opt_määrä'], marker='o', label=oppilaitos)
+    ax.set_ylabel('Opinnäytetöiden määrä')
+    ax.legend(title='Oppilaitos', bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax.grid(True)
+    vuodet = sorted(df['vuosi'].dropna().unique())
+    ax.set_xticks(vuodet)
+    ax.set_xticklabels(vuodet)
+    st.subheader('🔸Oppilaitosten aktiivisuus eri vuosina')
+    st.pyplot(fig)
 
     st.markdown("""---""")
     df = get_vis22()
