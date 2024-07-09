@@ -458,27 +458,25 @@ elif valinnat == "Muut":
 
     st.markdown("""---""")
     df = get_vis17()
-    filtteri = df[df["kieli"].isin(["en", "fi"])]
-    opinnaytetyot_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
-    plt.figure(figsize=(12, 7))
-    kielet = opinnaytetyot_vuosittain["kieli"].unique()
+    opinnäytetyöt_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
+    fig, ax = plt.subplots(figsize=(12, 7))
+    kielet = opinnäytetyöt_vuosittain["kieli"].unique()
     colors = ['tab:red', 'tab:blue']
     
     for kieli, color in zip(kielet, colors):
-        data = opinnaytetyot_vuosittain[opinnaytetyot_vuosittain["kieli"] == kieli]
-        plt.plot(data["vuosi"], data["id"], marker='o', label=kieli, color=color)
-    
-    plt.xlabel("Vuosi", fontsize=15)
-    plt.ylabel("Opinnäytetöiden määrä", fontsize=15)
-    plt.title("Opinnäytetöiden määrä Suomeksi ja Englanniksi", fontsize=18)
-    plt.legend(title='Kieli')
-    handles, labels = plt.gca().get_legend_handles_labels()
+        data = opinnäytetyöt_vuosittain[opinnäytetyöt_vuosittain["kieli"] == kieli]
+        ax.plot(data["vuosi"], data["id"], marker='o', label=kieli, color=color)
+    ax.set_ylabel("Opinnäytetöiden määrä", fontsize=15)
+    all_years = sorted(opinnäytetyöt_vuosittain["vuosi"].unique())
+    ax.set_xticks(all_years)
+    ax.set_xticklabels(all_years, rotation=0)
+    handles, labels = ax.get_legend_handles_labels()
     order = [labels.index('fi'), labels.index('en')]
-    plt.legend([handles[idx] for idx in order], [labels[idx] for idx in order], title='Kieli')
-    plt.grid(True)
+    ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order], title='Kieli')
+    ax.grid(True)
     plt.tight_layout()
     st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
-    st.pyplot(plt)
+    st.pyplot(fig)
 
     st.markdown("""---""")
     df = get_vis18()
