@@ -545,6 +545,20 @@ elif valinnat == "Muut":
     st.subheader("🔸Oppilaitosten aktiivisuus eri vuosina (5 aktiivisinta)")
     st.pyplot(plt)
 
+    st.markdown("""---""")
+    df['tiivistelmä1n_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
+    df['tiivistelmä2n_pituus'] = df['tiivistelmä2'].apply(lambda x: len(str(x)))
+    def jitter(arr, jitter_amount=1):
+        return arr + np.random.uniform(-jitter_amount, jitter_amount, arr.shape)
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.scatter(df['vuosi'], add_jitter(df['tiivistelmä1_pituus']), alpha=0.5, label='Tiivistelmä 1')
+    ax.scatter(df['vuosi'], add_jitter(df['tiivistelmä2_pituus']), alpha=0.5, label='Tiivistelmä 2', color='red')
+    ax.set_xlabel('Vuosi')
+    ax.set_ylabel('Kirjainten määrä')
+    ax.grid(True)
+    ax.legend()
+    st.subheader('🔸Tiivistelmien pituudet eri vuosina')
+    st.pyplot(fig)
 #----------------
 
 def clean_company_name(name):
