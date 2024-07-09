@@ -558,6 +558,14 @@ elif valinnat == "Muut":
     ax.legend()
     st.subheader('🔸Tiivistelmien pituudet eri vuosina')
     st.pyplot(fig)
+
+    vuosittaiset_opinnäytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
+    fig, ax = plt.subplots(figsize=(9, 5))
+    ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o')
+    ax.set_ylabel('Opinnäytetöiden määrä', fontsize=14)
+    ax.grid(True)
+    st.subheader("Opinnäytetöiden määrä vuosittain")
+    st.pyplot(fig)
 #----------------
 
 def clean_company_name(name):
