@@ -556,21 +556,13 @@ elif valinnat == "Muut":
     ax.set_ylabel('Kirjainten määrä')
     ax.grid(True)
     ax.legend()
+    ax.set_xticks(df['vuosi'].unique())
+    ax.set_xticklabels(df['vuosi'].unique())
     st.subheader('🔸Tiivistelmien pituudet eri vuosina')
     st.pyplot(fig)
 
     st.markdown("""---""")
     df = get_vis23()
-    vuosittaiset_opinnäytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
-    fig, ax = plt.subplots(figsize=(9, 5))
-    ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o')
-    ax.set_ylabel('Opinnäytetöiden määrä', fontsize=14)
-    ax.grid(True)
-    st.subheader("🔸Opinnäytetöiden määrä vuosittain")
-    st.pyplot(fig)
-
-    st.markdown("""---""")
-    df = get_vis24()
     st.subheader('🔸Opinnäytetöiden määrä vuosittain kielen mukaan')
     kielen_valinta = st.selectbox('Valitse kieli', df['kieli'].unique())
     df_kieli = df[df['kieli'] == kielen_valinta]
@@ -581,6 +573,7 @@ elif valinnat == "Muut":
     ax.grid(True)
     ax.set_xticks(vuosittaiset_opinnäytetyöt['vuosi'])
     st.pyplot(fig)
+
 #----------------
 
 def clean_company_name(name):
