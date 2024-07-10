@@ -128,6 +128,7 @@ if valinnat == "Toimeksiannot":
     st.title('TheseusAMK visualisointi')
     st.subheader('🔸Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
     st.plotly_chart(fig)
+
     
     st.markdown("""---""")
     df = get_vis2()
@@ -150,6 +151,7 @@ if valinnat == "Toimeksiannot":
     )
     st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
     st.plotly_chart(fig2)
+
     
     st.markdown("""---""")
     df = get_vis3()
@@ -161,6 +163,8 @@ if valinnat == "Toimeksiannot":
             )
     st.subheader("🔸Vuosittainen toimeksiantajien määrä")
     st.plotly_chart(fig)
+
+
     st.markdown("""---""")
     df = get_vis4()
     st.subheader('🔸Isoimmat toimeksiantajat')
@@ -183,6 +187,7 @@ if valinnat == "Toimeksiannot":
             st.plotly_chart(fig)
     plot_pie(on_amk)
 
+
     st.markdown("""---""")
     df = get_vis5()
     filtteri = df[(df["koulutusala_fi"] == "Tietojenkäsittely") & (df["on_amk"] == False)]
@@ -201,6 +206,7 @@ if valinnat == "Toimeksiannot":
     )
     st.subheader("🔸Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
     st.plotly_chart(fig)
+
 
     st.markdown("""---""")
     df = get_vis6()
@@ -225,7 +231,8 @@ if valinnat == "Toimeksiannot":
         )
             st.plotly_chart(fig)
     int_kokeilu(koulutusala)
-    
+
+
     st.markdown("""---""")
     df = get_vis7()
     st.subheader('🔸Eniten toimeksiantoja vuosittain')
@@ -269,6 +276,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     st.subheader("🔸15 suosituinta koulutusohjelmaa")
     st.pyplot(fig)
 
+
     st.markdown("""---""")
     df = get_vis9()
     df["oppilaitos"] = df["oppilaitos"].replace(
@@ -292,6 +300,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     plt.tight_layout()
     st.pyplot(fig3)
 
+
     st.markdown("""---""")
     df = get_vis10()
     teksti = df["koulutusala_fi"].str.cat(sep=' ')
@@ -304,6 +313,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
     plt.show()
     st.subheader("🔸Koulutusalojen sanapilvi")
     st.pyplot(plt)
+
 
     st.markdown("""---""")
     df = get_vis11()
@@ -331,6 +341,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
         )
     st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
+
 
     st.markdown("""---""")
     df = get_vis12()
@@ -373,6 +384,7 @@ elif valinnat == "Muut":
     st.subheader('🔸Opinnäytetöissä käytetyt kielet')
     st.plotly_chart(fig)
 
+
     st.markdown("""---""")
     df = get_vis14()
     from wordcloud import WordCloud, STOPWORDS
@@ -384,6 +396,7 @@ elif valinnat == "Muut":
     plt.show()
     st.subheader("🔸Avainsanojen sanapilvi")
     st.pyplot(plt)
+
 
     st.markdown("""---""")
     df = get_vis15()
@@ -453,6 +466,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
     folium_static(m)
 
+
     st.markdown("""---""")
     df = get_vis17()
     filtteri = df[df["kieli"].isin(["en", "fi"])]
@@ -476,6 +490,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
     st.pyplot(fig)
 
+
     st.markdown("""---""")
     df = get_vis18()
     vuosittaiset_opinnäytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
@@ -490,6 +505,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Opinnäytetöiden määrä vuosittain")
     st.pyplot(fig)
 
+
     st.markdown("""---""")
     df = get_vis19()
     df["tiivistelmien_sanat"] = df["tiivistelmä1"].apply(lambda x: len(str(x).split()) if pd.notna(x) else 0)
@@ -503,6 +519,7 @@ elif valinnat == "Muut":
     ax.set_xticklabels(vuodet)
     st.subheader("🔸Tiivistelmien keskimääräinen sanamäärä vuosittain")
     st.pyplot(fig)
+
 
     st.markdown("""---""")
     df = get_vis20()
@@ -546,6 +563,7 @@ elif valinnat == "Muut":
     st.subheader('🔸Oppilaitosten aktiivisuus eri vuosina')
     st.pyplot(fig)
 
+
     st.markdown("""---""")
     df = get_vis22()
     df['tiivistelmä1_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
@@ -561,6 +579,7 @@ elif valinnat == "Muut":
     ax.set_xticklabels(df['vuosi'].unique())
     st.subheader('🔸Tiivistelmien pituudet eri vuosina')
     st.pyplot(fig)
+
 
     st.markdown("""---""")
     df = get_vis23()
