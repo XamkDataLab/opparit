@@ -423,9 +423,7 @@ elif valinnat == "Muut":
     
     opinnäytetyöt_oppilaitoksittain = df.groupby("oppilaitos")["id"].nunique().reset_index()
     opinnäytetyöt_oppilaitoksittain.columns = ["oppilaitos", "opinnäytetöiden_määrä"]
-    
     data = pd.merge(koulujen_df, opinnäytetyöt_oppilaitoksittain, on="oppilaitos")
-    
     m = folium.Map(location=[64.0, 26.0], zoom_start=6)
     marker_cluster = MarkerCluster().add_to(m)
     
@@ -445,7 +443,6 @@ elif valinnat == "Muut":
     m = folium.Map(location=[64.0, 26.0], zoom_start=6)
     marker_cluster = MarkerCluster().add_to(m)
     
-  
     for idx, row in data.iterrows():
         folium.Marker(
             location=[row["lat"], row["lon"]],
@@ -481,9 +478,9 @@ elif valinnat == "Muut":
 
     st.markdown("""---""")
     df = get_vis18()
-    vuosittaiset_opinnaytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
+    vuosittaiset_opinnäytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.plot(vuosittaiset_opinnaytetyöt["vuosi"], vuosittaiset_opinnaytetyöt["id"], marker='o', linestyle='-', color='tab:blue')
+    ax.plot(vuosittaiset_opinnäytetyöt["vuosi"], vuosittaiset_opinnäytetyöt["id"], marker='o', linestyle='-', color='tab:blue')
     ax.set_ylabel("Opinnäytetöiden määrä", fontsize=14)
     vuodet = sorted(df["vuosi"].dropna().unique())
     ax.set_xticks(vuodet)
@@ -509,20 +506,20 @@ elif valinnat == "Muut":
 
     st.markdown("""---""")
     df = get_vis20()
-    opinnaytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
-    pivot_table = opinnaytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
-    pivot_table = pivot_table.fillna(0)
+    opinnäytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
+    heatmapvis = opinnäytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
+    heatmapvis = heatmapvis.fillna(0)
     fig, px = plt.subplots(figsize=(14, 9))
-    cax = px.matshow(pivot_table, cmap="Spectral_r")
-    px.set_xticks(np.arange(len(pivot_table.columns)))
-    px.set_yticks(np.arange(len(pivot_table.index)))
-    px.set_xticklabels(pivot_table.columns)
-    px.set_yticklabels(pivot_table.index)
+    cax = px.matshow(heatmapvis, cmap="Spectral_r")
+    px.set_xticks(np.arange(len(heatmapvis.columns)))
+    px.set_yticks(np.arange(len(heatmapvis.index)))
+    px.set_xticklabels(heatmapvis.columns)
+    px.set_yticklabels(heatmapvis.index)
     plt.xlabel("Kuukaudet")
-    plt.ylabel("Vuodet")
+    plt.ylabel("Vuosi")
     px.xaxis.set_ticks_position('bottom')
     px.xaxis.set_label_position('bottom')
-    for (i, j), val in np.ndenumerate(pivot_table.values):
+    for (i, j), val in np.ndenumerate(heatmapvis.values):
         px.text(j, i, int(val), ha='center', va='center', color='black')
     st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
     st.pyplot(fig)
@@ -569,7 +566,7 @@ elif valinnat == "Muut":
     df = get_vis23()
     st.subheader('🔸Opinnäytetöiden määrä vuosittain kielen mukaan')
     kielisuodatin = df['kieli'].unique()
-    kielisuodatin = [lang for lang in kielisuodatin if lang not in ['other']]
+    kielisuodatin = [sana for sana in kielisuodatin if sana not in ['other']]
     kielen_valinta = st.selectbox('Valitse kieli', kielisuodatin)
     df_kieli = df[df['kieli'] == kielen_valinta]
     vuosittaiset_opinnäytetyöt = df_kieli.groupby('vuosi')['id'].nunique().reset_index()
