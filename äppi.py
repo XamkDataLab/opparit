@@ -113,6 +113,7 @@ df = df[~df['kieli'].isin(["akuuttihoito", 'NULL'])]
 
 #-----------------------
 st.markdown("""---""")
+df = get_vis1()
 if valinnat == "Toimeksiannot":
     toimeksiantaja_lkm = df["toimeksiantaja"].notna().sum()
     total = len(df)
@@ -133,32 +134,32 @@ if valinnat == "Toimeksiannot":
     
     st.markdown("""---""")
     df = get_vis2()
-    df["oppilaitos"] = df["oppilaitos"].replace(
+    df["oppilaitos"].replace(
         "Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", 
-        "Karelia-ammattikorkeakoulu"
-    )
-    opl_tma = df.dropna(subset=["toimeksiantaja"])
-    toimeksiantajat_oppilaitoksittain = opl_tma["oppilaitos"].value_counts()
+        "Karelia-ammattikorkeakoulu", 
+        inplace=True
+        )
+        toimeksiantajat_oppilaitoksittain = df.dropna(subset=["toimeksiantaja"])["oppilaitos"].value_counts()
+        
+        fig2 = go.Figure(data=[go.Bar(
+            x=toimeksiantajat_oppilaitoksittain.index,
+            y=toimeksiantajat_oppilaitoksittain.values,
+            marker_color='teal'
+        )])
     
-    fig2 = go.Figure(data=[go.Bar(
-        x=toimeksiantajat_oppilaitoksittain.index,
-        y=toimeksiantajat_oppilaitoksittain.values,
-        marker_color='teal'
-    )])
-
-    fig2.update_layout(
-        xaxis={'tickangle': -90}
-        yaxis=dict(range=[0, 4200])
-    )
-    st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
-    st.plotly_chart(fig2)
+        fig2.update_layout(
+            xaxis={'tickangle': -90},
+            yaxis=dict(range=[0, 4200])
+        )
+        st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
+        st.plotly_chart(fig2)
 
     
     st.markdown("""---""")
     df = get_vis3()
     vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
     fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
-              labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
+            labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
             fig.update_layout(
             yaxis=dict(range=[0, 7200])
             )
@@ -173,12 +174,10 @@ if valinnat == "Toimeksiannot":
     def plot_pie(on_amk):
             filtteri = df[df["on_amk"] == on_amk]
             Eniten_toimeksiantoja = filtteri["toimeksiantaja"].value_counts().nlargest(15)
-            data = Eniten_toimeksiantoja.values
-            keys = Eniten_toimeksiantoja.index
 
             fig = go.Figure(go.Pie(
-            labels=keys,
-            values=data,
+            labels=Eniten_toimeksiantoja.index,
+            values=Eniten_toimeksiantoja.values,
             hole=.3,
             hoverinfo="label+percent+value",
          textinfo="label+percent",
