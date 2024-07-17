@@ -114,18 +114,19 @@ df = df[~df['kieli'].isin(["akuuttihoito", 'NULL'])]
 #-----------------------
 st.markdown("""---""")
 if valinnat == "Toimeksiannot":
-    df = get_vis1()
-    toimeksiantaja_lkm = df["toimeksiantaja"].notna().value_counts()
+    toimeksiantaja_lkm = df["toimeksiantaja"].notna().sum()
+    total = len(df)
+    toimeksiantaja_puuttuu = total - toimeksiantaja_lkm
+
     labels = ["Toimeksiantaja löytyy", "Toimeksiantaja puuttuu"]
-    values = [toimeksiantaja_lkm.get(True, 0), toimeksiantaja_lkm.get(False, 0)]
+    values = [toimeksiantaja_lkm, toimeksiantaja_puuttuu]
 
     fig = go.Figure(data=[go.Bar(x=labels, y=values, width=0.45, marker_color=['#66c2a5', '#fc8d62'])])
     fig.update_layout(
         xaxis_title='Toimeksiantaja',
-        yaxis_title='Lukumäärä'
-        yaxis=dict(range=[0, 225000])
+        yaxis_title='Lukumäärä',
+        yaxis=dict(range=[0, total])
     )
-    st.title('TheseusAMK visualisointi')
     st.subheader('🔸Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
     st.plotly_chart(fig)
 
