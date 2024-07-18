@@ -202,6 +202,10 @@ if valinnat == "Toimeksiannot":
     fig.update_layout(
         xaxis_title="Toimeksiantojen määrä",
         yaxis=dict(autorange='reversed'),
+        xaxis=dict(
+            tickmode='linear',
+            dtick=1
+        ),
         template='plotly_dark'
     )
     st.subheader("🔸Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
@@ -380,7 +384,12 @@ elif valinnat == "Muut":
     suurimmat_kielet = kieli_lkm[kieli_lkm.index.isin(['fi', 'en', 'sv'])]
     muut = kieli_lkm[~kieli_lkm.index.isin(['fi', 'en', 'sv'])].sum()
     kieli_lkm_yhdistetty = pd.concat([suurimmat_kielet, pd.Series({'muut': muut})])
-    fig = px.pie(kieli_lkm_yhdistetty, values=kieli_lkm_yhdistetty.values, names=kieli_lkm_yhdistetty.index)
+    fig = px.pie(
+        kieli_lkm_yhdistetty, 
+        values=kieli_lkm_yhdistetty.values, 
+        names=kieli_lkm_yhdistetty.index,
+        title='🔸Opinnäytetöissä käytetyt kielet'
+    )
     st.subheader('🔸Opinnäytetöissä käytetyt kielet')
     st.plotly_chart(fig)
 
@@ -472,16 +481,15 @@ elif valinnat == "Muut":
     filtteri = df[df["kieli"].isin(["en", "fi"])]
     opinnäytetyöt_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
     fig, ax = plt.subplots(figsize=(12, 7))
-    kielet = opinnäytetyöt_vuosittain["kieli"].unique()
-    colors = ['tab:red', 'tab:blue']
-
-    for kieli, color in zip(kielet, colors):
+    colors = {'fi': 'tab:blue', 'en': 'tab:red'}
+    
+    for kieli in opinnäytetyöt_vuosittain["kieli"].unique():
         data = opinnäytetyöt_vuosittain[opinnäytetyöt_vuosittain["kieli"] == kieli]
-        ax.plot(data["vuosi"], data["id"], marker='o', label=kieli, color=color)
+        ax.plot(data["vuosi"], data["id"], marker='o', label=kieli, color=colors[kieli])
     ax.set_ylabel("Opinnäytetöiden määrä", fontsize=15)
-    all_years = sorted(opinnäytetyöt_vuosittain["vuosi"].unique())
-    ax.set_xticks(all_years)
-    ax.set_xticklabels(all_years, rotation=0)
+    vuodet = sorted(opinnäytetyöt_vuosittain["vuosi"].unique())
+    ax.set_xticks(vuodet)
+    ax.set_xticklabels(vuodet, rotation=0)
     handles, labels = ax.get_legend_handles_labels()
     order = [labels.index('fi'), labels.index('en')]
     ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order], title='Kieli')
