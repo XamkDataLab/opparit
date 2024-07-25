@@ -397,14 +397,14 @@ elif valinnat == "Muut":
     st.markdown("""---""")
     df = get_vis14()
     from wordcloud import WordCloud, STOPWORDS
-    teksti = df['avainsanat'].str.cat(sep=' ').replace("'", "")
+    teksti = ' '.join(df['avainsanat'].dropna()).replace("'", "")
     wordcloud = WordCloud(max_font_size=50, max_words=75, background_color="white", colormap="CMRmap", stopwords=STOPWORDS).generate(teksti)
-    plt.figure(figsize=(10, 15))
-    plt.imshow(wordcloud, interpolation="bilinear")
-    plt.axis("off")
-    plt.show()
+    fig, ax = plt.subplots(figsize=(10, 15))
+    ax.imshow(wordcloud, interpolation="bilinear")
+    ax.axis("off")
+
     st.subheader("🔸Avainsanojen sanapilvi")
-    st.pyplot(plt)
+    st.pyplot(fig)
 
 
     st.markdown("""---""")
@@ -501,16 +501,16 @@ elif valinnat == "Muut":
 
     st.markdown("""---""")
     df = get_vis18()
-    vuosittaiset_opinnäytetyöt = df.groupby("vuosi")["id"].nunique().reset_index()
+    vuosittaiset_opinnäytetyöt = df['vuosi'].value_counts().sort_index().reset_index()
+    vuosittaiset_opinnäytetyöt.columns = ['vuosi', 'id']
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.plot(vuosittaiset_opinnäytetyöt["vuosi"], vuosittaiset_opinnäytetyöt["id"], marker='o', linestyle='-', color='tab:blue')
+    ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o', linestyle='-', color='tab:blue')
     ax.set_ylabel("Opinnäytetöiden määrä", fontsize=14)
-    vuodet = sorted(df["vuosi"].dropna().unique())
-    ax.set_xticks(vuodet)
-    ax.set_xticklabels(vuodet)
+    ax.set_xticks(vuosittaiset_opinnäytetyöt['vuosi'])
     ax.grid(True)
     plt.tight_layout()
-    st.subheader("🔸Opinnäytetöiden määrä vuosittain")
+    
+    st.subheader("🔸Vuosittaiset opinnäytetyöt")
     st.pyplot(fig)
 
 
@@ -518,6 +518,7 @@ elif valinnat == "Muut":
     df = get_vis19()
     df["tiivistelmien_sanat"] = df["tiivistelmä1"].apply(lambda x: len(str(x).split()) if pd.notna(x) else 0)
     kskm_sanamäärä = df.groupby("vuosi")["tiivistelmien_sanat"].mean().reset_index()
+
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(kskm_sanamäärä["vuosi"], kskm_sanamäärä["tiivistelmien_sanat"], marker="o")
     ax.set_xlabel("Vuosi")
@@ -525,6 +526,7 @@ elif valinnat == "Muut":
     vuodet = sorted(df["vuosi"].dropna().unique())
     ax.set_xticks(vuodet)
     ax.set_xticklabels(vuodet)
+
     st.subheader("🔸Tiivistelmien keskimääräinen sanamäärä vuosittain")
     st.pyplot(fig)
 
@@ -534,6 +536,7 @@ elif valinnat == "Muut":
     opinnäytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
     heatmapvis = opinnäytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
     heatmapvis = heatmapvis.fillna(0)
+
     fig, px = plt.subplots(figsize=(14, 9))
     cax = px.matshow(heatmapvis, cmap="Spectral_r")
     px.set_xticks(np.arange(len(heatmapvis.columns)))
@@ -546,6 +549,7 @@ elif valinnat == "Muut":
     px.xaxis.set_label_position('bottom')
     for (i, j), val in np.ndenumerate(heatmapvis.values):
         px.text(j, i, int(val), ha='center', va='center', color='black')
+        
     st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
     st.pyplot(fig)
 
@@ -591,19 +595,20 @@ elif valinnat == "Muut":
 
     st.markdown("""---""")
     df = get_vis23()
-    st.subheader('🔸Opinnäytetöiden määrä vuosittain kielen mukaan')
-    kielisuodatin = df['kieli'].unique()
-    kielisuodatin = [sana for sana in kielisuodatin if sana not in ['other']]
+    kielisuodatin = [sana for sana in df['kieli'].unique() if sana != 'other']
     kielen_valinta = st.selectbox('Valitse kieli', kielisuodatin)
     df_kieli = df[df['kieli'] == kielen_valinta]
-    vuosittaiset_opinnäytetyöt = df_kieli.groupby('vuosi')['id'].nunique().reset_index()
+    vuosittaiset_opinnäytetyöt = df_kieli['vuosi'].value_counts().sort_index().reset_index()
+    vuosittaiset_opinnäytetyöt.columns = ['vuosi', 'id']
+    
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o')
     ax.set_ylabel('Opinnäytetöiden määrä', fontsize=14)
     ax.grid(True)
     ax.set_xticks(vuosittaiset_opinnäytetyöt['vuosi'])
+    
+    st.subheader('🔸Opinnäytetöiden määrä vuosittain kielen mukaan')
     st.pyplot(fig)
-
 #----------------
 
 def clean_company_name(name):
