@@ -25,15 +25,14 @@ valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'],
 )
 
 df = get_julkaisupaiva()
-
 df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
 df['vuosi'] = df['julkaisupäivä'].dt.year
 df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
-df = get_toimeksiantaja_oppilaitos()
 
+df = get_toimeksiantaja_oppilaitos()
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 oppilaitokset = (
         'AMK|ammattikorkea|Centria ammattikorkeakoulu|Diakonia-ammattikorkeakoulu|'
@@ -47,7 +46,6 @@ oppilaitokset = (
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
 
 df = get_poistettavatyritykset()
-
 poistettavat_arvot = [
         'Anonyymi yritys', 'Anonyymit Yritys A ja Yritys B', 'Case yritys X', 'Case-yritys', 'Case-yritys Oy',
         'Fysioterapiayritys X', 'IT- ja taloushallinnon palveluita tarjoava yritys', 'Kiinteistönvälitysyritys X',
@@ -78,8 +76,8 @@ poistettavat_arvot = [
 
 df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)]
 
-df = get_oppilaitos_ta()
 
+df = get_oppilaitos_ta()
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 
 oppilaitokset = (
@@ -95,7 +93,6 @@ oppilaitokset = (
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
 
 df = get_kielet()
-
 kieli_muutokset = {
     'fin': 'fi',
     'fi': 'fi',
@@ -113,8 +110,8 @@ df = df[~df['kieli'].isin(["akuuttihoito", 'NULL'])]
 
 #-----------------------
 st.markdown("""---""")
-df = get_vis1()
 if valinnat == "Toimeksiannot":
+    df = get_vis1()
     toimeksiantaja_lkm = df["toimeksiantaja"].notna().sum()
     total = len(df)
     toimeksiantaja_puuttuu = total - toimeksiantaja_lkm
@@ -390,6 +387,7 @@ elif valinnat == "Muut":
         names=kieli_lkm_yhdistetty.index,
         title='🔸Opinnäytetöissä käytetyt kielet'
     )
+
     st.subheader('🔸Opinnäytetöissä käytetyt kielet')
     st.plotly_chart(fig)
 
@@ -495,6 +493,7 @@ elif valinnat == "Muut":
     ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order], title='Kieli')
     ax.grid(True)
     plt.tight_layout()
+
     st.subheader("🔸Opinnäytetöiden määrä Suomeksi ja Englanniksi")
     st.pyplot(fig)
 
@@ -503,6 +502,7 @@ elif valinnat == "Muut":
     df = get_vis18()
     vuosittaiset_opinnäytetyöt = df['vuosi'].value_counts().sort_index().reset_index()
     vuosittaiset_opinnäytetyöt.columns = ['vuosi', 'id']
+
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(vuosittaiset_opinnäytetyöt['vuosi'], vuosittaiset_opinnäytetyöt['id'], marker='o', linestyle='-', color='tab:blue')
     ax.set_ylabel("Opinnäytetöiden määrä", fontsize=14)
@@ -572,6 +572,7 @@ elif valinnat == "Muut":
     vuodet = sorted(df['vuosi'].dropna().unique())
     ax.set_xticks(vuodet)
     ax.set_xticklabels(vuodet)
+
     st.subheader('🔸Oppilaitosten aktiivisuus eri vuosina')
     st.pyplot(fig)
 
@@ -581,6 +582,7 @@ elif valinnat == "Muut":
     df['tiivistelmä1_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
     def jitter(arr, jitter_amount=1):
         return arr + np.random.uniform(-jitter_amount, jitter_amount, arr.shape)
+        
     fig, ax = plt.subplots(figsize=(10, 10))
     ax.scatter(df['vuosi'], add_jitter(df['tiivistelmä1_pituus']), alpha=0.5)
     ax.set_xlabel('Vuosi')
@@ -589,6 +591,7 @@ elif valinnat == "Muut":
     ax.legend()
     ax.set_xticks(df['vuosi'].unique())
     ax.set_xticklabels(df['vuosi'].unique())
+
     st.subheader('🔸Tiivistelmien pituudet eri vuosina')
     st.pyplot(fig)
 
