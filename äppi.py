@@ -135,19 +135,21 @@ if valinnat == "Toimeksiannot":
         "Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", 
         "Karelia-ammattikorkeakoulu", 
         inplace=True
-        )
+    )
     toimeksiantajat_oppilaitoksittain = df.dropna(subset=["toimeksiantaja"])["oppilaitos"].value_counts()
-        
+
+
+    st.markdown("""---""")
     fig2 = go.Figure(data=[go.Bar(
-            x=toimeksiantajat_oppilaitoksittain.index,
-            y=toimeksiantajat_oppilaitoksittain.values,
-            marker_color='teal'
-        )])
-    
+        x=toimeksiantajat_oppilaitoksittain.index,
+        y=toimeksiantajat_oppilaitoksittain.values,
+        marker_color='teal'
+    )])
+
     fig2.update_layout(
-            xaxis={'tickangle': -90},
-            yaxis=dict(range=[0, 4200])
-        )
+        xaxis={'tickangle': -90},
+        yaxis=dict(range=[0, 4200])
+    )
     st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
     st.plotly_chart(fig2)
 
@@ -156,12 +158,14 @@ if valinnat == "Toimeksiannot":
     df = get_vis3()
     vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
     fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
-            labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
+              labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
     fig.update_layout(
-            yaxis=dict(range=[0, 7200])
-            )
+    yaxis=dict(range=[0, 7200])
+    )
+    st.markdown("""---""")
     st.subheader("🔸Vuosittainen toimeksiantajien määrä")
     st.plotly_chart(fig)
+    st.markdown("""---""")
 
 
     st.markdown("""---""")
@@ -181,8 +185,8 @@ if valinnat == "Toimeksiannot":
             marker=dict(line=dict(color='white', width=2)),
         pull=[0.08] + [0] * 14
         ))
-    st.plotly_chart(fig)
-    plot_pie(on_amk)
+            st.plotly_chart(fig)
+        plot_pie(on_amk)
 
 
     st.markdown("""---""")
@@ -198,14 +202,10 @@ if valinnat == "Toimeksiannot":
     ))
     fig.update_layout(
         xaxis_title="Toimeksiantojen määrä",
-        yaxis=dict(autorange='reversed'),
-        xaxis=dict(
-            tickmode='linear',
-            dtick=1
-        ),
-        template='plotly_dark'
+        yaxis=dict(autorange='reversed')
     )
     st.subheader("🔸Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
+    st.plotly_chart(fig)ksen 10 suurinta toimeksiantajaa")
     st.plotly_chart(fig)
 
 
@@ -230,8 +230,9 @@ if valinnat == "Toimeksiannot":
             xaxis=dict(type='linear'),
             template='plotly_white'
         )
-    st.plotly_chart(fig)
+            st.plotly_chart(fig)
     int_kokeilu(koulutusala)
+
 
 
     st.markdown("""---""")
@@ -254,20 +255,24 @@ if valinnat == "Toimeksiannot":
             fig.update_layout(
             title=f'Eniten toimeksiantoja vuonna {year}',
             xaxis_title="Toimeksiantojen määrä",
+            yaxis_title="Toimeksiantaja",
             template='plotly_white'
         )
 
-    st.plotly_chart(fig)
+            st.plotly_chart(fig)
     plot_top_10_toimeksiantajat(year)
 
 #-----------------------
-if valinnat == "Koulutusohjelmat":
+elif valinnat == "Koulutusohjelmat":
     df = get_vis8()
     Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
     data = Koulutusohjelmat_top15.values
     keys = Koulutusohjelmat_top15.index
     explode = [0.05] + [0] * (len(keys) - 1)
-
+    df["oppilaitos"] = df["oppilaitos"].replace(
+        "Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", 
+        "Karelia-ammattikorkeakoulu"
+    )
     fig, px = plt.subplots(figsize=(8, 8), facecolor='none')
     px.pie(data, autopct='%.1f%%', pctdistance=0.9, explode=explode, shadow=True,
        wedgeprops={'edgecolor': "none"})
@@ -275,7 +280,6 @@ if valinnat == "Koulutusohjelmat":
     px.legend(keys, title="Koulutusohjelmat", loc="center right", bbox_to_anchor=(1.1, 0, 0.5, 1))
     st.subheader("🔸15 suosituinta koulutusohjelmaa")
     st.pyplot(fig)
-
 
     st.markdown("""---""")
     df = get_vis9()
@@ -339,9 +343,8 @@ if valinnat == "Koulutusohjelmat":
         template='plotly_white',
         xaxis=dict(range=[0, 600]),
         )
-    st.plotly_chart(fig)
+            st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
-
 
     st.markdown("""---""")
     df = get_vis12()
@@ -366,14 +369,14 @@ if valinnat == "Koulutusohjelmat":
         yaxis_title="Koulutusala",
         yaxis=dict(autorange='reversed'),
         xaxis=dict(range=[0, 40000]),
+        template='plotly_white',
     )
 
-    st.plotly_chart(fig)
+            st.plotly_chart(fig)
     plot_top_10_koulutusalat(kieli)
-
 #-----------------------
 st.markdown("""---""")
-if valinnat == "Muut":
+elif valinnat == "Muut":
     df = get_vis13()
     kieli_lkm = df["kieli"].value_counts()
     suurimmat_kielet = kieli_lkm[kieli_lkm.index.isin(['fi', 'en', 'sv'])]
@@ -385,7 +388,6 @@ if valinnat == "Muut":
         names=kieli_lkm_yhdistetty.index,
         title='🔸Opinnäytetöissä käytetyt kielet'
     )
-
     st.subheader('🔸Opinnäytetöissä käytetyt kielet')
     st.plotly_chart(fig)
 
@@ -456,20 +458,21 @@ if valinnat == "Muut":
     folium_static(m)
 
     st.markdown("""---""")
+    df = get_vis16()
     suosituimmat_koulutusalat = df.groupby(["oppilaitos", "koulutusala_fi"])["id"].count().reset_index()
     suosituimmat_koulutusalat = suosituimmat_koulutusalat.loc[suosituimmat_koulutusalat.groupby("oppilaitos")["id"].idxmax()]
     suosituimmat_koulutusalat.columns = ["oppilaitos", "koulutusala_fi", "count"]
     data = pd.merge(koulujen_df, suosituimmat_koulutusalat, on="oppilaitos")
     m = folium.Map(location=[64.0, 26.0], zoom_start=6)
     marker_cluster = MarkerCluster().add_to(m)
-
+    
     for idx, row in data.iterrows():
         folium.Marker(
             location=[row["lat"], row["lon"]],
             popup=f"{row['oppilaitos']}<br>{row['koulutusala_fi']}: {row['count']} opinnäytettä",
             tooltip=row["oppilaitos"]
         ).add_to(marker_cluster)
-
+    
     st.subheader("🔸Suosituimmat koulutusalat oppilaitoksittain")
     folium_static(m)
 
@@ -518,7 +521,6 @@ if valinnat == "Muut":
     df = get_vis19()
     df["tiivistelmien_sanat"] = df["tiivistelmä1"].apply(lambda x: len(str(x).split()) if pd.notna(x) else 0)
     kskm_sanamäärä = df.groupby("vuosi")["tiivistelmien_sanat"].mean().reset_index()
-
     fig, ax = plt.subplots(figsize=(9, 5))
     ax.plot(kskm_sanamäärä["vuosi"], kskm_sanamäärä["tiivistelmien_sanat"], marker="o")
     ax.set_xlabel("Vuosi")
@@ -526,17 +528,15 @@ if valinnat == "Muut":
     vuodet = sorted(df["vuosi"].dropna().unique())
     ax.set_xticks(vuodet)
     ax.set_xticklabels(vuodet)
-
     st.subheader("🔸Tiivistelmien keskimääräinen sanamäärä vuosittain")
     st.pyplot(fig)
 
 
     st.markdown("""---""")
     df = get_vis20()
-    opinnäytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
-    heatmapvis = opinnäytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
+    opinnaytetyot_heatmap = df.groupby(["vuosi", "kuukausi"])["id"].count().reset_index()
+    heatmapvis = opinnaytetyot_heatmap.pivot(index="vuosi", columns="kuukausi", values="id")
     heatmapvis = heatmapvis.fillna(0)
-
     fig, px = plt.subplots(figsize=(14, 9))
     cax = px.matshow(heatmapvis, cmap="Spectral_r")
     px.set_xticks(np.arange(len(heatmapvis.columns)))
@@ -544,15 +544,13 @@ if valinnat == "Muut":
     px.set_xticklabels(heatmapvis.columns)
     px.set_yticklabels(heatmapvis.index)
     plt.xlabel("Kuukaudet")
-    plt.ylabel("Vuosi")
+    plt.ylabel("Vuodet")
     px.xaxis.set_ticks_position('bottom')
     px.xaxis.set_label_position('bottom')
     for (i, j), val in np.ndenumerate(heatmapvis.values):
         px.text(j, i, int(val), ha='center', va='center', color='black')
-        
     st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
     st.pyplot(fig)
-
 
     st.markdown("""---""")
     df = get_vis21()
@@ -572,26 +570,23 @@ if valinnat == "Muut":
     vuodet = sorted(df['vuosi'].dropna().unique())
     ax.set_xticks(vuodet)
     ax.set_xticklabels(vuodet)
-
+    
     st.subheader('🔸Oppilaitosten aktiivisuus eri vuosina')
     st.pyplot(fig)
 
 
     st.markdown("""---""")
     df = get_vis22()
-    df['tiivistelmä1_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
-    def jitter(arr, jitter_amount=1):
+    df['tiivistelmä1n_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
+    def add_jitter(arr, jitter_amount=1):
         return arr + np.random.uniform(-jitter_amount, jitter_amount, arr.shape)
-        
     fig, ax = plt.subplots(figsize=(10, 10))
-    ax.scatter(df['vuosi'], add_jitter(df['tiivistelmä1_pituus']), alpha=0.5)
-    ax.set_xlabel('Vuosi')
+    ax.scatter(df['vuosi'], add_jitter(df['tiivistelmä1n_pituus']), alpha=0.5, label='Tiivistelmä 1')
     ax.set_ylabel('Kirjainten määrä')
     ax.grid(True)
     ax.legend()
     ax.set_xticks(df['vuosi'].unique())
     ax.set_xticklabels(df['vuosi'].unique())
-
     st.subheader('🔸Tiivistelmien pituudet eri vuosina')
     st.pyplot(fig)
 
