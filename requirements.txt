@@ -5,5 +5,5 @@ seaborn
 wordcloud
 streamlit_option_menu
 folium
-folium.plugins.MarkerCluster
+folium
 streamlit_folium
