@@ -14,7 +14,7 @@ from datanhaku import *
 #----------------
 
 st.title('💻 TheseusAMK visualisointi')
-valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'], 
+valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat & oppilaitokset', 'Muut'], 
     menu_icon="cast", default_index=0, orientation="horizontal",
     styles={
         "container": {"padding": "0!important", "background-color": "#13a872"},
@@ -261,7 +261,7 @@ if valinnat == "Toimeksiannot":
     plot_top_10_toimeksiantajat(year)
 
 #-----------------------
-elif valinnat == "Koulutusohjelmat & oppilaitokset":
+if valinnat == "Koulutusohjelmat & oppilaitokset":
     df = get_vis8()
     Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
     data = Koulutusohjelmat_top15.values
