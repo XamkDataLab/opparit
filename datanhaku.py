@@ -81,7 +81,7 @@ def get_vis7():
     return df
 
 def get_vis8():
-    query = "SELECT koulutusohjelma FROM theseusAMK;"
+    query = "SELECT koulutusohjelma, oppilaitos FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
@@ -123,7 +123,7 @@ def get_vis14():
     return df
 
 def get_vis15():
-    query = "SELECT oppilaitos, id FROM theseusAMK;"
+    query = "SELECT oppilaitos FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
