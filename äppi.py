@@ -138,7 +138,7 @@ if valinnat == "Toimeksiannot":
         )
     toimeksiantajat_oppilaitoksittain = df.dropna(subset=["toimeksiantaja"])["oppilaitos"].value_counts()
         
-        fig2 = go.Figure(data=[go.Bar(
+    fig2 = go.Figure(data=[go.Bar(
             x=toimeksiantajat_oppilaitoksittain.index,
             y=toimeksiantajat_oppilaitoksittain.values,
             marker_color='teal'
