@@ -144,7 +144,7 @@ if valinnat == "Toimeksiannot":
             marker_color='teal'
         )])
     
-        fig2.update_layout(
+    fig2.update_layout(
             xaxis={'tickangle': -90},
             yaxis=dict(range=[0, 4200])
         )
