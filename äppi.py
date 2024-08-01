@@ -11,6 +11,7 @@ import folium
 from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
 from datanhaku import *
+
 #----------------
 
 st.title('💻 TheseusAMK visualisointi')
