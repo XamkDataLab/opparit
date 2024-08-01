@@ -4,4 +4,6 @@ plotly
 seaborn
 wordcloud
 streamlit_option_menu
-option_menu
+folium
+folium.plugins.MarkerCluster
+streamlit_folium
