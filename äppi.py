@@ -374,7 +374,7 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
 
 #-----------------------
 st.markdown("""---""")
-elif valinnat == "Muut":
+if valinnat == "Muut":
     df = get_vis13()
     kieli_lkm = df["kieli"].value_counts()
     suurimmat_kielet = kieli_lkm[kieli_lkm.index.isin(['fi', 'en', 'sv'])]
