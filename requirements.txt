@@ -4,6 +4,4 @@ plotly
 seaborn
 wordcloud
 streamlit_option_menu
-folium
-folium.plugins
-streamlit_folium
+option_menu
