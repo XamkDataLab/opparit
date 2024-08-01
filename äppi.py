@@ -149,7 +149,7 @@ if valinnat == "Toimeksiannot":
             yaxis=dict(range=[0, 4200])
         )
     st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
-        st.plotly_chart(fig2)
+    st.plotly_chart(fig2)
 
     
     st.markdown("""---""")
@@ -181,7 +181,7 @@ if valinnat == "Toimeksiannot":
             marker=dict(line=dict(color='white', width=2)),
         pull=[0.08] + [0] * 14
         ))
-            st.plotly_chart(fig)
+    st.plotly_chart(fig)
     plot_pie(on_amk)
 
 
@@ -230,7 +230,7 @@ if valinnat == "Toimeksiannot":
             xaxis=dict(type='linear'),
             template='plotly_white'
         )
-            st.plotly_chart(fig)
+    st.plotly_chart(fig)
     int_kokeilu(koulutusala)
 
 
@@ -257,7 +257,7 @@ if valinnat == "Toimeksiannot":
             template='plotly_white'
         )
 
-            st.plotly_chart(fig)
+    st.plotly_chart(fig)
     plot_top_10_toimeksiantajat(year)
 
 #-----------------------
