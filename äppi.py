@@ -261,7 +261,6 @@ if valinnat == "Toimeksiannot":
     plot_top_10_toimeksiantajat(year)
 
 #-----------------------
-    st.markdown("""---""")
 elif valinnat == "Koulutusohjelmat & oppilaitokset":
     df = get_vis8()
     Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
@@ -457,19 +456,21 @@ if valinnat == "Muut":
     folium_static(m)
 
     st.markdown("""---""")
-    df = get_vis16()
+    suosituimmat_koulutusalat = df.groupby(["oppilaitos", "koulutusala_fi"])["id"].count().reset_index()
+    suosituimmat_koulutusalat = suosituimmat_koulutusalat.loc[suosituimmat_koulutusalat.groupby("oppilaitos")["id"].idxmax()]
+    suosituimmat_koulutusalat.columns = ["oppilaitos", "koulutusala_fi", "count"]
     data = pd.merge(koulujen_df, suosituimmat_koulutusalat, on="oppilaitos")
     m = folium.Map(location=[64.0, 26.0], zoom_start=6)
     marker_cluster = MarkerCluster().add_to(m)
-    
+
     for idx, row in data.iterrows():
         folium.Marker(
             location=[row["lat"], row["lon"]],
-            popup=f"{row['oppilaitos']}<br>{row['koulutusala_fi']}: {row['count']} suoritettua opinnäytetyötä",
+            popup=f"{row['oppilaitos']}<br>{row['koulutusala_fi']}: {row['count']} opinnäytettä",
             tooltip=row["oppilaitos"]
         ).add_to(marker_cluster)
-    
-    st.subheader("🔸Oppilaitosten suosituimmat koulutusalat ja näiden alojen suoritettujen opinnäytetöiden määrä")
+
+    st.subheader("🔸Suosituimmat koulutusalat oppilaitoksittain")
     folium_static(m)
 
 
