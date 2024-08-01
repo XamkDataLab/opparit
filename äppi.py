@@ -136,7 +136,7 @@ if valinnat == "Toimeksiannot":
         "Karelia-ammattikorkeakoulu", 
         inplace=True
         )
-        toimeksiantajat_oppilaitoksittain = df.dropna(subset=["toimeksiantaja"])["oppilaitos"].value_counts()
+    toimeksiantajat_oppilaitoksittain = df.dropna(subset=["toimeksiantaja"])["oppilaitos"].value_counts()
         
         fig2 = go.Figure(data=[go.Bar(
             x=toimeksiantajat_oppilaitoksittain.index,
