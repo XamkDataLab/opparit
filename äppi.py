@@ -469,7 +469,7 @@ elif valinnat == "Muut":
     for idx, row in data.iterrows():
         folium.Marker(
             location=[row["lat"], row["lon"]],
-            popup=f"{row['oppilaitos']}<br>{row['koulutusala_fi']}: {row['count']} opinnäytettä",
+            popup=f"{row['oppilaitos']}<br>{row['koulutusala_fi']}: {row['count']} opinnäytetyötä",
             tooltip=row["oppilaitos"]
         ).add_to(marker_cluster)
     
