@@ -3,7 +3,3 @@ pyodbc
 plotly
 seaborn
 wordcloud
-streamlit_option_menu
-folium
-folium
-streamlit_folium
