@@ -366,7 +366,6 @@ elif valinnat == "Koulutusohjelmat & oppilaitokset":
         xaxis_title="Suoritetuttujen opinnäytetöiden määrä",
         yaxis_title="Koulutusala",
         yaxis=dict(autorange='reversed'),
-        template='plotly_white'
         xaxis=dict(range=[0, 40000]),
     )
 
