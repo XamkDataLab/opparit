@@ -3,7 +3,7 @@ pyodbc
 plotly
 seaborn
 wordcloud
-streamlit_option_menu import option_menu
+option_menu
 folium
-folium.plugins import MarkerCluster
-streamlit_folium import folium_static
+MarkerCluster
+folium_static
