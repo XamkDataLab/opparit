@@ -10,8 +10,7 @@ from streamlit_option_menu import option_menu
 import folium
 from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
-from datanhaku import get_pre1, get_pre2, get_pre3, get_pre4, get_pre5, get_vis1, get_vis2, get_vis3, get_vis4, get_vis5, get_vis6, get_vis7, get_vis8, get_vis9, get_vis10, get_vis11, get_vis12, get_vis13, get_vis14, get_vis15, get_vis16, get_vis17, get_vis18, get_vis19, get_vis20, get_vis21, get_vis22, get_vis23
-#----------------
+from datanhaku import *
 
 st.title('💻 TheseusAMK visualisointi')
 valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'], 
