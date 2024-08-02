@@ -153,7 +153,7 @@ def get_vis19():
     return df
 
 def get_vis20():
-    query = "SELECT julkaisupäivä, kuukausi, id FROM theseusAMK;"
+    query = "SELECT julkaisupäivä, id FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
