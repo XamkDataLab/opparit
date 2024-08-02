@@ -165,7 +165,6 @@ if valinnat == "Toimeksiannot":
     st.markdown("""---""")
     st.subheader("🔸Vuosittainen toimeksiantajien määrä")
     st.plotly_chart(fig)
-    st.markdown("""---""")
 
 
     st.markdown("""---""")
