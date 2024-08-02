@@ -12,6 +12,7 @@ from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
 from datanhaku import *
 
+
 st.title('💻 TheseusAMK visualisointi')
 valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'], 
     menu_icon="cast", default_index=0, orientation="horizontal",
@@ -104,6 +105,8 @@ kieli_muutokset = {
     }
 df["kieli"] = df["kieli"].replace(kieli_muutokset)
 df = df[~df['kieli'].isin(["akuuttihoito", 'NULL'])]
+
+
 
 #-----------------------
 st.markdown("""---""")
@@ -255,6 +258,8 @@ if valinnat == "Toimeksiannot":
             st.plotly_chart(fig)
     plot_top_10_toimeksiantajat(year)
 
+
+
 #-----------------------
 elif valinnat == "Koulutusohjelmat":
     df = get_vis5()
@@ -273,6 +278,7 @@ elif valinnat == "Koulutusohjelmat":
     px.legend(keys, title="Koulutusohjelmat", loc="center right", bbox_to_anchor=(1.1, 0, 0.5, 1))
     st.subheader("🔸15 suosituinta koulutusohjelmaa")
     st.pyplot(fig)
+
 
     st.markdown("""---""")
     df = get_vis6()
@@ -339,6 +345,7 @@ elif valinnat == "Koulutusohjelmat":
             st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
 
+
     st.markdown("""---""")
     df = get_vis9()
     st.subheader('🔸Suosituimmat koulutusalat kielen mukaan')
@@ -367,6 +374,9 @@ elif valinnat == "Koulutusohjelmat":
 
             st.plotly_chart(fig)
     plot_top_10_koulutusalat(kieli)
+
+
+
 #-----------------------
 st.markdown("""---""")
 elif valinnat == "Muut":
@@ -449,6 +459,7 @@ elif valinnat == "Muut":
     
     st.subheader("🔸Opinnäytetöiden määrä oppilaitoksittain kartalla")
     folium_static(m)
+
 
     st.markdown("""---""")
     df = get_vis13()
@@ -544,6 +555,7 @@ elif valinnat == "Muut":
     st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
     st.pyplot(fig)
 
+
     st.markdown("""---""")
     df = get_vis17()
     df['vuosi'] = pd.to_numeric(df['vuosi'], errors='coerce')
@@ -597,8 +609,11 @@ elif valinnat == "Muut":
     
     st.subheader('🔸Opinnäytetöiden määrä vuosittain kielen mukaan')
     st.pyplot(fig)
-#----------------
 
+
+
+#----------------
+df = get_ccn()
 def clean_company_name(name):
     stopwords = ['oy', 'ab', 'ky', 'oyj', 'gmbh', 'ltd', 'rf', 'seura', 'ry', 
                  'r y', 'inc', 'corp', 'oy ab', 'ltd oy', 'plc',
