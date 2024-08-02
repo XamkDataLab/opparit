@@ -57,7 +57,7 @@ def get_vis3():
     return df
 
 def get_vis4():
-    query = "SELECT TOP 15 toimeksiantaja FROM theseusAMK;"
+    query = "SELECT toimeksiantaja FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
