@@ -6,8 +6,3 @@ wordcloud
 streamlit_option_menu
 folium
 streamlit_folium
-streamlit
-plotly.express
-plotly.graph_objects
-matplotlib.pyplot
-folium.plugins
