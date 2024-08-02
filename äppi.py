@@ -24,7 +24,7 @@ valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'],
     }
 )
 
-df = get_julkaisupaiva()
+df = get_pre1()
 df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
 df['vuosi'] = df['julkaisupäivä'].dt.year
@@ -32,7 +32,7 @@ df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
 
-df = get_toimeksiantaja_oppilaitos()
+df = get_pre2()
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 oppilaitokset = (
         'AMK|ammattikorkea|Centria ammattikorkeakoulu|Diakonia-ammattikorkeakoulu|'
@@ -45,7 +45,7 @@ oppilaitokset = (
         )
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
 
-df = get_poistettavatyritykset()
+df = get_pre3()
 poistettavat_arvot = [
         'Anonyymi yritys', 'Anonyymit Yritys A ja Yritys B', 'Case yritys X', 'Case-yritys', 'Case-yritys Oy',
         'Fysioterapiayritys X', 'IT- ja taloushallinnon palveluita tarjoava yritys', 'Kiinteistönvälitysyritys X',
@@ -77,7 +77,7 @@ poistettavat_arvot = [
 df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)]
 
 
-df = get_oppilaitos_ta()
+df = get_pre4()
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 
 oppilaitokset = (
@@ -92,7 +92,7 @@ oppilaitokset = (
 
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
 
-df = get_kielet()
+df = pre5()
 kieli_muutokset = {
     'fin': 'fi',
     'fi': 'fi',
