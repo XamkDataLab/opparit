@@ -8,31 +8,31 @@ database = st.secrets["database"]
 username = st.secrets["username"]
 password = st.secrets["password"]
 
-def get_julkaisupaiva():
+def get_pre1():
     query = "SELECT julkaisupäivä FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
     
-def get_toimeksiantaja_oppilaitos():
+def get_pre2():
     query = "SELECT toimeksiantaja FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
 
-def get_poistettavatyritykset():
+def get_pre3():
     query = "SELECT toimeksiantaja FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
 
-def get_oppilaitos_ta():
+def get_pre4():
     query = "SELECT toimeksiantaja FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
     return df
 
-def get_kielet():
+def get_pre5():
     query = "SELECT kieli FROM theseusAMK;"
     with pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}') as conn:
         df = pd.read_sql(query, conn)
