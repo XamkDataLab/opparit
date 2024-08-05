@@ -9,7 +9,7 @@ username = st.secrets["username"]
 password = st.secrets["password"]
 
 def yhteys():
-    return pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}')
+    return pyodbc.connect(f'driver={driver};server={server};port=1433;DATABASE={database};uid={username};pwd={password}')
 
 def get_data(query):
     with yhteys() as conn:
