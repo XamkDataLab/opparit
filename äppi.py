@@ -24,7 +24,7 @@ valinnat = option_menu(None, ["Toimeksiannot", 'Koulutusohjelmat', 'Muut'],
     }
 )
 
-df1 = get_pre1()
+df = get_pre1()
     df['julkaisupäivä'] = pd.to_datetime(df['julkaisupäivä'], format='%Y-%m-%d %H.%M.%S.%f')
     df['julkaisupäivä'] = df['julkaisupäivä'].dt.normalize()
     df['vuosi'] = df['julkaisupäivä'].dt.year
@@ -33,7 +33,7 @@ df1 = get_pre1()
 
 
 
-df2 = get_pre2()
+df = get_pre2()
     df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
     oppilaitokset = (
             'AMK|ammattikorkea|Centria ammattikorkeakoulu|Diakonia-ammattikorkeakoulu|'
@@ -96,7 +96,7 @@ df2 = get_pre2()
 
 
 
-df3 = get_pre3()
+df = get_pre3()
     kieli_muutokset = {
         'fin': 'fi',
         'fi': 'fi',
@@ -117,7 +117,7 @@ df3 = get_pre3()
 #-----------------------
 st.markdown("""---""")
 if valinnat == "Toimeksiannot":
-    df4 = get_vis1()
+    df = get_vis1()
         toimeksiantaja_lkm = df["toimeksiantaja"].notna().sum()
         total = len(df)
         toimeksiantaja_puuttuu = total - toimeksiantaja_lkm
@@ -137,7 +137,7 @@ if valinnat == "Toimeksiannot":
 
     
     st.markdown("""---""")
-    df5 = get_vis2()
+    df = get_vis2()
         df["oppilaitos"].replace(
             "Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", 
             "Karelia-ammattikorkeakoulu", 
@@ -164,7 +164,7 @@ if valinnat == "Toimeksiannot":
 
     
     st.markdown("""---""")
-    df6 = get_vis3()
+    df = get_vis3()
         vuosittaiset_toimeksiantajat = df.groupby("vuosi")["toimeksiantaja"].nunique().reset_index()
         fig = px.bar(vuosittaiset_toimeksiantajat, x="vuosi", y="toimeksiantaja", 
                   labels={"vuosi": "Vuosi", "toimeksiantaja": "Toimeksiantajien määrä"})
@@ -199,7 +199,7 @@ if valinnat == "Toimeksiannot":
 
 
     st.markdown("""---""")
-    df7 = get_vis4()
+    df = get_vis4()
         filtteri = df[(df["koulutusala_fi"] == "Tietojenkäsittely") & (df["on_amk"] == False)]
         ala10_toimeksiantajat = filtteri["toimeksiantaja"].value_counts().head(10).reset_index()
         ala10_toimeksiantajat.columns = ["toimeksiantaja", "count"]
@@ -274,7 +274,7 @@ if valinnat == "Toimeksiannot":
 
 #-----------------------
 elif valinnat == "Koulutusohjelmat":
-    df8 = get_vis5()
+    df = get_vis5()
         Koulutusohjelmat_top15 = df["koulutusohjelma"].value_counts().nlargest(15)
         data = Koulutusohjelmat_top15.values
         keys = Koulutusohjelmat_top15.index
@@ -294,7 +294,7 @@ elif valinnat == "Koulutusohjelmat":
 
 
     st.markdown("""---""")
-    df9 = get_vis6()
+    df = get_vis6()
         df["oppilaitos"] = df["oppilaitos"].replace(
             "Karelia-ammattikorkeakoulu (Pohjois-Karjalan ammattikorkeakoulu)", 
             "Karelia-ammattikorkeakoulu"
@@ -319,7 +319,7 @@ elif valinnat == "Koulutusohjelmat":
 
 
     st.markdown("""---""")
-    df10 = get_vis7()
+    df = get_vis7()
         teksti = df["koulutusala_fi"].str.cat(sep=' ')
         plt.rcParams["figure.figsize"] = (10,15)
         stopwords = ["ja"]
@@ -334,7 +334,7 @@ elif valinnat == "Koulutusohjelmat":
 
 
     st.markdown("""---""")
-    df11 = get_vis8()
+    df = get_vis8()
         st.subheader('🔸Opinnäytetöiden määrä oppilaitoksittain')
         vuodet = [year for year in range(2008, 2024)]
         year = st.slider('Valitse vuosi', min_value=min(vuodet), max_value=max(vuodet), step=1, value=min(vuodet))
@@ -363,7 +363,7 @@ elif valinnat == "Koulutusohjelmat":
 
 
     st.markdown("""---""")
-    df12 = get_vis9()
+    df = get_vis9()
         st.subheader('🔸Suosituimmat koulutusalat kielen mukaan')
         kielet = df["kieli"].unique()
         kieli = st.selectbox('Valitse kieli', options=kielet)
@@ -396,7 +396,7 @@ elif valinnat == "Koulutusohjelmat":
 #-----------------------
 st.markdown("""---""")
 elif valinnat == "Muut":
-    df13 = get_vis10()
+    df = get_vis10()
         kieli_lkm = df["kieli"].value_counts()
         suurimmat_kielet = kieli_lkm[kieli_lkm.index.isin(['fi', 'en', 'sv'])]
         muut = kieli_lkm[~kieli_lkm.index.isin(['fi', 'en', 'sv'])].sum()
@@ -413,7 +413,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df14 = get_vis11()
+    df = get_vis11()
         from wordcloud import WordCloud, STOPWORDS
         teksti = ' '.join(df['avainsanat'].dropna()).replace("'", "")
         wordcloud = WordCloud(max_font_size=50, max_words=75, background_color="white", colormap="CMRmap", stopwords=STOPWORDS).generate(teksti)
@@ -427,7 +427,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df15 = get_vis12()
+    df = get_vis12()
         oppilaitostentiedot = {
             "Metropolia Ammattikorkeakoulu": ("Helsinki", 60.1695, 24.9354),
             "Tampereen ammattikorkeakoulu": ("Tampere", 61.4981, 23.7608),
@@ -481,7 +481,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df16 = get_vis13()
+    df = get_vis13()
         suosituimmat_koulutusalat = df.groupby(["oppilaitos", "koulutusala_fi"])["id"].count().reset_index()
         suosituimmat_koulutusalat = suosituimmat_koulutusalat.loc[suosituimmat_koulutusalat.groupby("oppilaitos")["id"].idxmax()]
         suosituimmat_koulutusalat.columns = ["oppilaitos", "koulutusala_fi", "count"]
@@ -502,7 +502,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df17 = get_vis14()
+    df = get_vis14()
         filtteri = df[df["kieli"].isin(["en", "fi"])]
         opinnäytetyöt_vuosittain = filtteri.groupby(["vuosi", "kieli"])["id"].count().reset_index()
         fig, ax = plt.subplots(figsize=(12, 7))
@@ -527,7 +527,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df18 = get_vis15()
+    df = get_vis15()
         vuosittaiset_opinnäytetyöt = df['vuosi'].value_counts().sort_index().reset_index()
         vuosittaiset_opinnäytetyöt.columns = ['vuosi', 'id']
     
@@ -544,7 +544,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df19 = get_vis16()
+    df = get_vis16()
         df["tiivistelmien_sanat"] = df["tiivistelmä1"].apply(lambda x: len(str(x).split()) if pd.notna(x) else 0)
         kskm_sanamäärä = df.groupby("vuosi")["tiivistelmien_sanat"].mean().reset_index()
         fig, ax = plt.subplots(figsize=(9, 5))
@@ -581,7 +581,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df20 = get_vis17()
+    df = get_vis17()
         df['vuosi'] = pd.to_numeric(df['vuosi'], errors='coerce')
         df['oppilaitos'] = df['oppilaitos'].astype(str)
         grouped_df = df.groupby(['vuosi', 'oppilaitos']).size().reset_index(name='Opt_määrä')
@@ -605,7 +605,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df21 = get_vis18()
+    df = get_vis18()
     df['tiivistelmä1n_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
     def add_jitter(arr, jitter_amount=1):
         return arr + np.random.uniform(-jitter_amount, jitter_amount, arr.shape)
@@ -622,7 +622,7 @@ elif valinnat == "Muut":
 
 
     st.markdown("""---""")
-    df22 = get_vis19()
+    df = get_vis19()
     kielisuodatin = [sana for sana in df['kieli'].unique() if sana != 'other']
     kielen_valinta = st.selectbox('Valitse kieli', kielisuodatin)
     df_kieli = df[df['kieli'] == kielen_valinta]
