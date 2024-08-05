@@ -90,7 +90,7 @@ oppilaitokset = (
 
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
 
-df = pre3()
+df = get_pre3()
 kieli_muutokset = {
     'fin': 'fi',
     'fi': 'fi',
