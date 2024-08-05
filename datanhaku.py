@@ -13,13 +13,9 @@ def yhteys():
     return pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}')
 
 def get_data(query):
-    try:
-        with yhteys() as conn:
-            df = pd.read_sql(query, conn)
-        return df
-    except pyodbc.Error as e:
-        st.error(f"Database error: {e}")
-        return pd.DataFrame()
+    with yhteys() as conn:
+        df = pd.read_sql(query, conn)
+    return df
 
 
 def get_pre1():
