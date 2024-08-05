@@ -32,6 +32,7 @@ df['kuukausi'] = df['julkaisupäivä'].dt.month
 df['julkaisupäivä'] = df['julkaisupäivä'].dt.strftime('%d-%m-%Y')
 
 
+
 df = get_pre2()
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 oppilaitokset = (
@@ -44,6 +45,8 @@ oppilaitokset = (
         'Turun ammattikorkeakoulu|Vaasan ammattikorkeakoulu|Yrkeshögskolan Arcada|Yrkeshögskolan Novia'
         )
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
+
+
 
 poistettavat_arvot = [
         'Anonyymi yritys', 'Anonyymit Yritys A ja Yritys B', 'Case yritys X', 'Case-yritys', 'Case-yritys Oy',
@@ -76,6 +79,7 @@ poistettavat_arvot = [
 df = df[~df['toimeksiantaja'].isin(poistettavat_arvot)]
 
 
+
 df['on_amk'] = df['toimeksiantaja'].str.contains('AMK|ammattikorkea', case=False, na=False)
 
 oppilaitokset = (
@@ -89,6 +93,8 @@ oppilaitokset = (
     )
 
 df['on_amk'] = df['toimeksiantaja'].str.contains(oppilaitokset, case=False, na=False)
+
+
 
 df = get_pre3()
 kieli_muutokset = {
@@ -128,6 +134,7 @@ if valinnat == "Toimeksiannot":
     st.subheader('🔸Opinnäytetyöt joista löytyy ja joista puuttuu toimeksiantajatieto.')
     st.plotly_chart(fig)
 
+
     
     st.markdown("""---""")
     df = get_vis2()
@@ -139,6 +146,7 @@ if valinnat == "Toimeksiannot":
     toimeksiantajat_oppilaitoksittain = df.dropna(subset=["toimeksiantaja"])["oppilaitos"].value_counts()
 
 
+    
     st.markdown("""---""")
     fig2 = go.Figure(data=[go.Bar(
         x=toimeksiantajat_oppilaitoksittain.index,
@@ -152,6 +160,7 @@ if valinnat == "Toimeksiannot":
     )
     st.subheader('🔸Toimeksiantajien määrä oppilaitoksittain')
     st.plotly_chart(fig2)
+
 
     
     st.markdown("""---""")
@@ -167,6 +176,7 @@ if valinnat == "Toimeksiannot":
     st.plotly_chart(fig)
 
 
+    
     st.markdown("""---""")
     st.subheader('🔸Isoimmat toimeksiantajat')
     on_amk = st.selectbox('On AMK:', options=[True, False], key='on_amk_selectboxi')
@@ -187,6 +197,7 @@ if valinnat == "Toimeksiannot":
         plot_pie(on_amk)
 
 
+
     st.markdown("""---""")
     df = get_vis4()
     filtteri = df[(df["koulutusala_fi"] == "Tietojenkäsittely") & (df["on_amk"] == False)]
@@ -205,6 +216,7 @@ if valinnat == "Toimeksiannot":
     st.subheader("🔸Tietojenkäsittely koulutuksen 10 suurinta toimeksiantajaa")
     st.plotly_chart(fig)ksen 10 suurinta toimeksiantajaa")
     st.plotly_chart(fig)
+
 
 
     st.markdown("""---""")
@@ -280,6 +292,7 @@ elif valinnat == "Koulutusohjelmat":
     st.pyplot(fig)
 
 
+
     st.markdown("""---""")
     df = get_vis6()
     df["oppilaitos"] = df["oppilaitos"].replace(
@@ -304,6 +317,7 @@ elif valinnat == "Koulutusohjelmat":
     st.pyplot(fig3)
 
 
+
     st.markdown("""---""")
     df = get_vis7()
     teksti = df["koulutusala_fi"].str.cat(sep=' ')
@@ -316,6 +330,7 @@ elif valinnat == "Koulutusohjelmat":
     plt.show()
     st.subheader("🔸Koulutusalojen sanapilvi")
     st.pyplot(plt)
+
 
 
     st.markdown("""---""")
@@ -344,6 +359,7 @@ elif valinnat == "Koulutusohjelmat":
         )
             st.plotly_chart(fig)
     plot_opinnäytetyöt_oppilaitoksittain(year)
+
 
 
     st.markdown("""---""")
@@ -395,6 +411,7 @@ elif valinnat == "Muut":
     st.plotly_chart(fig)
 
 
+
     st.markdown("""---""")
     df = get_vis11()
     from wordcloud import WordCloud, STOPWORDS
@@ -406,6 +423,7 @@ elif valinnat == "Muut":
 
     st.subheader("🔸Avainsanojen sanapilvi")
     st.pyplot(fig)
+
 
 
     st.markdown("""---""")
@@ -461,6 +479,7 @@ elif valinnat == "Muut":
     folium_static(m)
 
 
+
     st.markdown("""---""")
     df = get_vis13()
     suosituimmat_koulutusalat = df.groupby(["oppilaitos", "koulutusala_fi"])["id"].count().reset_index()
@@ -479,6 +498,7 @@ elif valinnat == "Muut":
     
     st.subheader("🔸Suosituimmat koulutusalat oppilaitoksittain")
     folium_static(m)
+
 
 
     st.markdown("""---""")
@@ -505,6 +525,7 @@ elif valinnat == "Muut":
     st.pyplot(fig)
 
 
+
     st.markdown("""---""")
     df = get_vis15()
     vuosittaiset_opinnäytetyöt = df['vuosi'].value_counts().sort_index().reset_index()
@@ -521,6 +542,7 @@ elif valinnat == "Muut":
     st.pyplot(fig)
 
 
+
     st.markdown("""---""")
     df = get_vis16()
     df["tiivistelmien_sanat"] = df["tiivistelmä1"].apply(lambda x: len(str(x).split()) if pd.notna(x) else 0)
@@ -534,6 +556,7 @@ elif valinnat == "Muut":
     ax.set_xticklabels(vuodet)
     st.subheader("🔸Tiivistelmien keskimääräinen sanamäärä vuosittain")
     st.pyplot(fig)
+
 
 
     st.markdown("""---""")
@@ -554,6 +577,7 @@ elif valinnat == "Muut":
         px.text(j, i, int(val), ha='center', va='center', color='black')
     st.subheader("🔸Vuosittaiset opinnäytetyöt heatmap")
     st.pyplot(fig)
+
 
 
     st.markdown("""---""")
@@ -579,7 +603,9 @@ elif valinnat == "Muut":
     st.pyplot(fig)
 
 
+
     st.markdown("""---""")
+    df = get_vis18()
     df['tiivistelmä1n_pituus'] = df['tiivistelmä1'].apply(lambda x: len(str(x)))
     def add_jitter(arr, jitter_amount=1):
         return arr + np.random.uniform(-jitter_amount, jitter_amount, arr.shape)
@@ -594,7 +620,9 @@ elif valinnat == "Muut":
     st.pyplot(fig)
 
 
+
     st.markdown("""---""")
+    df = get_Vis19()
     kielisuodatin = [sana for sana in df['kieli'].unique() if sana != 'other']
     kielen_valinta = st.selectbox('Valitse kieli', kielisuodatin)
     df_kieli = df[df['kieli'] == kielen_valinta]
