@@ -96,6 +96,14 @@ def get_vis17():
     query = "SELECT julkaisupäivä, oppilaitos FROM theseusAMK;"
     return get_data(query)
 
+def get_vis18():
+    query = "SELECT tiivistelmä1, julkaisupäivä FROM theseusAMK;"
+    return get_data(query)
+
+def get_vis19():
+    query = "SELECT kieli, julkaisupäivä FROM theseusAMK;"
+    return get_data(query)
+
 def get_ccn():
     query = "SELECT toimeksiantaja FROM theseusAMK;"
     return get_data(query)
