@@ -8,13 +8,19 @@ database = st.secrets["database"]
 username = st.secrets["username"]
 password = st.secrets["password"]
 
+
 def yhteys():
     return pyodbc.connect(f'DRIVER={driver};SERVER={server};PORT=1433;DATABASE={database};UID={username};PWD={password}')
 
 def get_data(query):
-    with yhteys() as conn:
-        df = pd.read_sql(query, conn)
-    return df
+    try:
+        with yhteys() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+    except pyodbc.Error as e:
+        st.error(f"Database error: {e}")
+        return pd.DataFrame()
+
 
 def get_pre1():
     query = "SELECT julkaisupäivä FROM theseusAMK;"
